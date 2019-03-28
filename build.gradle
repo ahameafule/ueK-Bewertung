@@ -14,8 +14,43 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.flywaydb:flyway-core'
-	runtimeOnly 'mysql:mysql-connector-java'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile("mysql:mysql-connector-java:8.0.15")
+	
+	
+	// JWT
+	compile("io.jsonwebtoken:jjwt:0.7.0")
+	
+	//apt 'org.mapstruct:mapstruct-processor:1.2.0.Final'
+	
+	// Swagger
+	compile "io.springfox:springfox-swagger2:2.9.2"
+	compile "io.springfox:springfox-swagger-ui:2.9.2"
+	
+	// Flyway
+	compile "org.flywaydb:flyway-core:5.2.4"
+	
+	// Jackson ObjectMapper (JSON)
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.6'
+	
+	// JAXB (XML)
+	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.4.0-b180725.0427'
+	
+	// PostgreSQL
+	compile group: 'org.postgresql', name: 'postgresql', version: '42.2.4'
+	
+	// Spring Boot testing
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.springframework.security:spring-security-test')
+	
+	// AssertJ
+	testCompile("org.assertj:assertj-core:3.11.1")
+	
+	// H2 Database Engine
+	testCompile('com.h2database:h2:1.4.194')
+	
+	// mockito
+	testCompile group: 'org.mockito', name: 'mockito-core', version: '2.21.0'
 }

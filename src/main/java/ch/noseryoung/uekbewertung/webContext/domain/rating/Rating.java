@@ -5,14 +5,11 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import ch.noseryoung.uekbewertung.config.generic.ExtendedEntity;
-import ch.noseryoung.uekbewertung.webContext.domain.question.Question;
 import ch.noseryoung.uekbewertung.webContext.domain.rating_question.RatingQuestion;
 
 /**
@@ -23,7 +20,11 @@ import ch.noseryoung.uekbewertung.webContext.domain.rating_question.RatingQuesti
  */
 @Entity
 @Table(name = "rating")
-public class Rating extends ExtendedEntity{
+public class Rating {
+	
+		@Id
+		@GeneratedValue
+		private Long id;
 		
 		@Column(name = "remarks")
 		private String remarks;
@@ -47,8 +48,36 @@ public class Rating extends ExtendedEntity{
 		 * @param remarks
 		 */
 		public Rating(Long id, String remarks) {
-			super(id);
+			this.id = id;
 			this.remarks = remarks;
+		}
+
+		/**
+		 * @return the id
+		 */
+		public Long getId() {
+			return id;
+		}
+
+		/**
+		 * @param id the id to set
+		 */
+		public void setId(Long id) {
+			this.id = id;
+		}
+
+		/**
+		 * @return the ratingQuestions
+		 */
+		public Set<RatingQuestion> getRatingQuestions() {
+			return ratingQuestions;
+		}
+
+		/**
+		 * @param ratingQuestions the ratingQuestions to set
+		 */
+		public void setRatingQuestions(Set<RatingQuestion> ratingQuestions) {
+			this.ratingQuestions = ratingQuestions;
 		}
 
 		/**

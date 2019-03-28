@@ -4,12 +4,13 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import ch.noseryoung.uekbewertung.config.generic.ExtendedEntity;
 import ch.noseryoung.uekbewertung.webContext.domain.role.Role;
 
 /**
@@ -20,7 +21,11 @@ import ch.noseryoung.uekbewertung.webContext.domain.role.Role;
  */
 @Entity
 @Table(name = "authority")
-public class Authority extends ExtendedEntity {
+public class Authority {
+	
+	@Id
+	@GeneratedValue
+	private Long id;
 	
 	@Column(name = "name")
 	private String name;
@@ -49,8 +54,22 @@ public class Authority extends ExtendedEntity {
 	 * @param name
 	 */
 	public Authority(Long id, String name) {
-		super(id);
+		this.id = id;
 		this.name = name;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	/**

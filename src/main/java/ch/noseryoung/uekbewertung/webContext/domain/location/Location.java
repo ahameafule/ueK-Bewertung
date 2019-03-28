@@ -5,9 +5,10 @@ package ch.noseryoung.uekbewertung.webContext.domain.location;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
-
-import ch.noseryoung.uekbewertung.config.generic.ExtendedEntity;
 
 
 /**
@@ -17,8 +18,13 @@ import ch.noseryoung.uekbewertung.config.generic.ExtendedEntity;
  */
 @Entity
 @Table(name = "location")
-public class Location extends ExtendedEntity {
+public class Location {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id; 
+	
 	@Column(name = "city")
 	private String city;
 	
@@ -54,11 +60,25 @@ public class Location extends ExtendedEntity {
 	}
 	
 	public Location(Long id, String city, String postal, String street, String telephone) {
-		super(id);
+		this.id = id; 
 		this.city = city;
 		this.postal = postal;
 		this.street = street;
 		this.telephone = telephone;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	/**

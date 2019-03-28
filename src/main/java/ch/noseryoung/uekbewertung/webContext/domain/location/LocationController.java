@@ -4,6 +4,7 @@
 package ch.noseryoung.uekbewertung.webContext.domain.location;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -48,8 +49,13 @@ public class LocationController {
 	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<Location> getById(@PathVariable Long id) {
-		Location location = locationService.findById(id).get();
-		return new ResponseEntity<>(location, HttpStatus.OK);
+		Optional<Location> location = locationService.findById(id);
+		
+		if(!location.isPresent()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(location.get(), HttpStatus.OK);
 	}
 	
 	/**
@@ -83,7 +89,7 @@ public class LocationController {
 	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<Location> updatedById(@PathVariable Long id, @Valid @RequestBody Location location) {
-		locationService.update(location);
+		locationService.update(location, id);
 		return new ResponseEntity<>(location, HttpStatus.OK);
 	}
 	

@@ -4,6 +4,7 @@
 package ch.noseryoung.uekbewertung.webContext.domain.course;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -47,8 +48,12 @@ public class CourseController {
 	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<Course> getById(@PathVariable Long id) {
-		Course course = courseService.findById(id).get();
-		return new ResponseEntity<>(course, HttpStatus.OK);
+		Optional<Course> course = courseService.findById(id);
+		
+		if(!course.isPresent()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(course.get(), HttpStatus.OK);
 	}
 	
 	/**
@@ -59,6 +64,7 @@ public class CourseController {
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<Course>> getAll() {
 		List<Course> courses = courseService.findAll();
+		
 		return new ResponseEntity<>(courses, HttpStatus.OK);
 	}
 	
@@ -70,6 +76,7 @@ public class CourseController {
 	@PostMapping({ "", "/"})
 	public ResponseEntity<Course> create(@Valid @RequestBody Course course) {
 		courseService.save(course);
+		
 		return new ResponseEntity<>(course, HttpStatus.CREATED);
 	}
 	
@@ -82,7 +89,8 @@ public class CourseController {
 	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<Course> updatedById(@PathVariable Long id, @Valid @RequestBody Course course) {
-		courseService.update(course);
+		courseService.update(course, id);
+		
 		return new ResponseEntity<>(course, HttpStatus.OK);
 	}
 	
@@ -95,6 +103,7 @@ public class CourseController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		courseService.deleteById(id);
+		
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

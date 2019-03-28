@@ -3,9 +3,9 @@
  */
 package ch.noseryoung.uekbewertung.webContext.domain.location;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import ch.noseryoung.uekbewertung.config.generic.ExtendedJpaRepository;
 
 /**
  * This interface holds all data access related methods targeted toward 
@@ -15,6 +15,6 @@ import ch.noseryoung.uekbewertung.config.generic.ExtendedJpaRepository;
  *
  */
 @Repository 
-public interface LocationRepository extends ExtendedJpaRepository<Location> {
+public interface LocationRepository extends JpaRepository<Location, Long> {
 
 }

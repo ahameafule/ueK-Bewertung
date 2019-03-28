@@ -3,7 +3,7 @@
  */
 package ch.noseryoung.uekbewertung.webContext.domain.course;
 
-import ch.noseryoung.uekbewertung.config.generic.ExtendedJpaRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * This interface holds all data access related methods targeted towards
@@ -12,6 +12,6 @@ import ch.noseryoung.uekbewertung.config.generic.ExtendedJpaRepository;
  * @author lohse
  *
  */
-public interface CourseRepository extends ExtendedJpaRepository<Course> {
+public interface CourseRepository extends JpaRepository<Course, Long>{
 
 }

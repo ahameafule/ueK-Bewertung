@@ -2,15 +2,18 @@ package ch.noseryoung.uekbewertung.webContext.domain.question;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import ch.noseryoung.uekbewertung.config.generic.ExtendedEntity;
 import ch.noseryoung.uekbewertung.webContext.domain.rating.Rating;
+import ch.noseryoung.uekbewertung.webContext.domain.rating_question.RatingQuestion;
 
 
 /**
@@ -26,13 +29,8 @@ public class Question extends ExtendedEntity {
 	@Column(name = "text")
 	private String text;
 	
-	@ManyToMany
-	@JoinTable(
-		name = "rating_question",
-		joinColumns = @JoinColumn(name = "question_id"),
-		inverseJoinColumns = @JoinColumn(name = "rating_id")
-		)
-	private Set<Rating> ratings;
+	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+	private Set<RatingQuestion> ratingQuestions;
 
 	public Question() {}
 	
@@ -69,17 +67,17 @@ public class Question extends ExtendedEntity {
 	}
 
 	/**
-	 * @return the ratings
+	 * @return the questions
 	 */
-	public Set<Rating> getRatings() {
-		return ratings;
+	public Set<RatingQuestion> getQuestions() {
+		return ratingQuestions;
 	}
 
 	/**
-	 * @param ratings the ratings to set
+	 * @param questions the roles to set
 	 */
-	public void setRatings(Set<Rating> ratings) {
-		this.ratings = ratings;
+	public void setQuestions(Set<RatingQuestion> questions) {
+		this.ratingQuestions = questions;
 	}
 	
 }

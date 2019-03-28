@@ -21,7 +21,7 @@ import ch.noseryoung.uekbewertung.webContext.domain.role.Role;
  * @author Moritz Lauper
  */
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class User extends ExtendedEntity {
 	
 	@Column(name = "first_name")

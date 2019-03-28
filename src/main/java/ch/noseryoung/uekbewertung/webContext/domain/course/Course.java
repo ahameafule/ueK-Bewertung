@@ -8,12 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.apache.catalina.User;
 import ch.noseryoung.uekbewertung.webContext.domain.location.Location;
+import ch.noseryoung.uekbewertung.webContext.domain.user.User;
 
 /**
  * This class is the entity course
@@ -34,11 +35,11 @@ public class Course {
 	private String courseNumber;
 		
 	@ManyToOne
-	@JoinTable(name = "fk_location")
+	@JoinColumn(name = "fk_location")
 	private Location location; 
 		
 	@ManyToOne
-	@JoinTable(name = "fk_user")
+	@JoinColumn(name = "fk_user")
 	private User user;
 
 	/**

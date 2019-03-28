@@ -5,13 +5,13 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-
-import ch.noseryoung.uekbewertung.config.generic.ExtendedEntity;
 import ch.noseryoung.uekbewertung.webContext.domain.role.Role;
 
 /**
@@ -21,8 +21,12 @@ import ch.noseryoung.uekbewertung.webContext.domain.role.Role;
  * @author Moritz Lauper
  */
 @Entity
-@Table(name = "users")
-public class User extends ExtendedEntity {
+@Table(name = "user")
+public class User {
+	
+	@Id
+	@GeneratedValue
+	private Long id;
 	
 	@Column(name = "first_name")
 	private String firstName;
@@ -63,13 +67,27 @@ public class User extends ExtendedEntity {
 	public User(
 			Long id, String firstName, String lastName, Set<Role> roles
 	) {
-		super(id);
+		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.roles = roles;
 	}
 
 	
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	/**
 	 * @return the firstName
 	 */

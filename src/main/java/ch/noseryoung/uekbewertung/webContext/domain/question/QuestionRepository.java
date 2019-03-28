@@ -1,16 +1,16 @@
-package ch.noseryoung.uekbewertung.webContext.domain.authority;
+package ch.noseryoung.uekbewertung.webContext.domain.question;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
  * This interface holds all data access related methods targeted towards the
- * entity authority.
+ * entity question.
  * 
  * @author Joel Ahameafule
  *
  */
 @Repository
-public interface AuthorityRepository extends JpaRepository<Authority, Long> {
+public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 }

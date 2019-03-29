@@ -1,5 +1,6 @@
 package ch.noseryoung.uekbewertung.webContext.domain.user;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -34,6 +35,9 @@ public class User {
 	@Column(name = "last_name")
 	private String lastName;
 	
+	@Column(name = "creationdate")
+	private Date creationdate;
+	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 		name = "users_role",
@@ -51,10 +55,11 @@ public class User {
 	 * @param roles
 	 */
 	public User(
-			String firstName, String lastName, Set<Role> roles
+			String firstName, String lastName, Date creationdate, Set<Role> roles
 	) {
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.creationdate = creationdate; 
 		this.roles = roles;
 	}
 
@@ -65,11 +70,12 @@ public class User {
 	 * @param roles
 	 */
 	public User(
-			Long id, String firstName, String lastName, Set<Role> roles
+			Long id, String firstName, String lastName, Date creationdate, Set<Role> roles
 	) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.creationdate = creationdate;
 		this.roles = roles;
 	}
 
@@ -79,6 +85,20 @@ public class User {
 	 */
 	public Long getId() {
 		return id;
+	}
+
+	/**
+	 * @return the creationdate
+	 */
+	public Date getCreationdate() {
+		return creationdate;
+	}
+
+	/**
+	 * @param creationdate the creationdate to set
+	 */
+	public void setCreationdate(Date creationdate) {
+		this.creationdate = creationdate;
 	}
 
 	/**

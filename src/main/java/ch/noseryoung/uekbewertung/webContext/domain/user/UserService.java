@@ -1,5 +1,7 @@
 package ch.noseryoung.uekbewertung.webContext.domain.user;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -24,20 +26,41 @@ public class UserService {
 		this.userRepository = userRepository;
 	}
 
+	/**
+	 * find User by the giving id
+	 * @param id
+	 * @return
+	 */
 	public Optional<User> findById(Long id) {
 		Optional<User> user = userRepository.findById(id);
 		return user;
 	}
 
+	/**
+	 * gives all users
+	 * @param id
+	 * @return
+	 */
 	public List<User> findAll() {
-		List<User> authorities = userRepository.findAll();
-		return authorities;
+		List<User> users = userRepository.findAll();
+		return users;
 	}
-
+	
+	/**
+	 * saves one course
+	 * @param id
+	 * @return
+	 */
 	public void save(User user) {
+		user.setCreationdate(new Date());
 		userRepository.save(user);
 	}
 
+	/**
+	 * updates the user 
+	 * @param id
+	 * @return
+	 */
 	public void update(User newUser, Long id) throws NoSuchElementException {
 		Optional<User> currentUser = userRepository.findById(id);
 		if (currentUser.isPresent()) {
@@ -48,8 +71,29 @@ public class UserService {
 		}
 	}
 
+	/**
+	 * deletes the user with the given id
+	 * @param id
+	 * @return
+	 */
 	public void deleteById(Long id) {
 		userRepository.deleteById(id);
+	}
+	
+	/**
+	 * deletes users after one year
+	 * @param id
+	 * @return
+	 */
+	public void deleteOldUsers(Date dateToCheck) {
+		
+		List<User> users = userRepository.findAll();
+		
+		for (User user : users) {
+			if(user.getCreationdate().before(dateToCheck)) {
+				userRepository.delete(user);
+			}
+		}
 	}
 	
 }

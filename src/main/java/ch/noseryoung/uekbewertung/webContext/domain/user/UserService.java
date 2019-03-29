@@ -1,6 +1,5 @@
 package ch.noseryoung.uekbewertung.webContext.domain.user;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -8,6 +7,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import ch.noseryoung.uekbewertung.webContext.domain.role.Role;
 
 /**
  * 
@@ -90,8 +91,21 @@ public class UserService {
 		List<User> users = userRepository.findAll();
 		
 		for (User user : users) {
-			if(user.getCreationdate().before(dateToCheck)) {
-				userRepository.delete(user);
+			boolean isTrainer = false;
+			
+			for (Role role : user.getRoles()) {
+				/**
+				 * The user will not be deleted if he has the role "trainer"
+				 */
+				if(role.getName().equals("trainer")) {
+					isTrainer = true;
+				}
+			}
+			
+			if(!isTrainer) {
+				if(user.getCreationdate().before(dateToCheck)) {
+					userRepository.delete(user);
+				}
 			}
 		}
 	}

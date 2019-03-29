@@ -1,5 +1,6 @@
 package ch.noseryoung.uekbewertung.webContext.domain.user;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -8,15 +9,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ch.noseryoung.uekbewertung.webContext.domain.role.Role;
-
 /**
  * 
  * @author Moritz Lauper
  */
 @Service
 public class UserService {
-
+	
 	private UserRepository userRepository;
 
 	/**
@@ -29,7 +28,6 @@ public class UserService {
 
 	/**
 	 * find User by the giving id
-	 * 
 	 * @param id
 	 * @return
 	 */
@@ -40,7 +38,6 @@ public class UserService {
 
 	/**
 	 * gives all users
-	 * 
 	 * @param id
 	 * @return
 	 */
@@ -48,10 +45,9 @@ public class UserService {
 		List<User> users = userRepository.findAll();
 		return users;
 	}
-
+	
 	/**
 	 * saves one course
-	 * 
 	 * @param id
 	 * @return
 	 */
@@ -61,8 +57,7 @@ public class UserService {
 	}
 
 	/**
-	 * updates the user
-	 * 
+	 * updates the user 
 	 * @param id
 	 * @return
 	 */
@@ -78,41 +73,27 @@ public class UserService {
 
 	/**
 	 * deletes the user with the given id
-	 * 
 	 * @param id
 	 * @return
 	 */
 	public void deleteById(Long id) {
 		userRepository.deleteById(id);
 	}
-
+	
 	/**
 	 * deletes users after one year
-	 * 
 	 * @param id
 	 * @return
 	 */
 	public void deleteOldUsers(Date dateToCheck) {
-
+		
 		List<User> users = userRepository.findAll();
 		
 		for (User user : users) {
-			boolean isTrainer = false;
-			
-			for (Role role : user.getRoles()) {
-				/**
-				 * The user will not be deleted if he has the role "trainer"
-				 */
-				if(role.getName().equals("trainer")) {
-					isTrainer = true;
-				}
+			if(user.getCreationdate().before(dateToCheck)) {
+				userRepository.delete(user);
 			}
-			
-			if(!isTrainer) {
-				if(user.getCreationdate().before(dateToCheck)) {
-					userRepository.delete(user);
-				}
-			}
-		}	
+		}
 	}
+	
 }

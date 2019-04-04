@@ -17,9 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ch.noseryoung.uekbewertung.webContext.domain.rating.Rating;
-import ch.noseryoung.uekbewertung.webContext.domain.rating.RatingService;
-
 
 /**
  * This class holds all REST endpoints targeted towards the entity rating.

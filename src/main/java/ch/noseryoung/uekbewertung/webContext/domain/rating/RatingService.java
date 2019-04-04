@@ -1,11 +1,17 @@
 package ch.noseryoung.uekbewertung.webContext.domain.rating;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import ch.noseryoung.uekbewertung.config.UUIDGenerator;
 
 /**
  * This class implements all data access related methods targeted towards the
@@ -23,7 +29,7 @@ public class RatingService {
 	 * @param ratingRepository
 	 */
 	@Autowired
-	public RatingService(RatingRepository ratingRepository) {
+	public RatingService(RatingRepository ratingRepository, EntityManager manager) {
 		this.ratingRepository = ratingRepository;
 	}
 
@@ -38,7 +44,20 @@ public class RatingService {
 	}
 
 	public void save(Rating rating) {
-		ratingRepository.save(rating);
+		List<Rating> currentRating = ratingRepository.findByCourseAndUser(rating.getCourse(), rating.getUser());
+	
+		if (currentRating.isEmpty()) {
+			try {
+				rating.setUUID(UUIDGenerator.generateUUID());
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			ratingRepository.save(rating);
+		} else {
+			throw new IllegalArgumentException("This rating already exists");
+		}
 	}
 
 	public void update(Rating newRating, Long id) throws NoSuchElementException {

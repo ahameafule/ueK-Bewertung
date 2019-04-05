@@ -1,5 +1,6 @@
 package ch.noseryoung.uekbewertung.webContext.domain.user;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;

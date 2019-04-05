@@ -127,8 +127,4 @@ public class Course {
 		this.user = user;
 	}	
 }
-
-
-
-
 	

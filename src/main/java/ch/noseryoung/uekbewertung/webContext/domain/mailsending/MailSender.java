@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  */
 
-@Component(value = "mailSender")
+@Component(value = "send a email")
 public class MailSender {
 
 	@RequestMapping(value = "/sendemail")

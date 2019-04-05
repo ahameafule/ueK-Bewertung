@@ -3,6 +3,10 @@ plugins {
 	id 'java'
 }
 
+plugins {
+    id "org.flywaydb.flyway" version "5.2.4"
+}
+
 apply plugin: 'io.spring.dependency-management'
 
 group = 'ch.noseryoung'
@@ -15,13 +19,16 @@ repositories {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.springframework.boot:spring-boot-starter-security')
+	//compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile("mysql:mysql-connector-java:8.0.15")
 	
 	// JWT
 	compile("io.jsonwebtoken:jjwt:0.7.0")
+	
+	// Flyway
+	compile "org.flywaydb:flyway-core:5.2.4"
 	
 	//apt 'org.mapstruct:mapstruct-processor:1.2.0.Final'
 	
@@ -40,7 +47,7 @@ dependencies {
 	
 	// Spring Boot testing
 	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile('org.springframework.security:spring-security-test')
+	//testCompile('org.springframework.security:spring-security-test')
 	
 	// AssertJ
 	testCompile("org.assertj:assertj-core:3.11.1")
@@ -51,3 +58,43 @@ dependencies {
 	// mockito
 	testCompile group: 'org.mockito', name: 'mockito-core', version: '2.21.0'
 }
+
+//Flyway Configuration
+import java.util.Properties
+def props = new Properties()
+file('src/main/resources/application.properties').withInputStream {
+   props.load(it)
+}
+
+flyway {
+    url = props['spring.datasource.url']
+    user = props['spring.datasource.username']
+    password = props['spring.datasource.password']
+    baselineOnMigrate = true
+	validateOnMigrate = true
+
+	//executes production sql sripts
+	locations = ["filesystem:$project.projectDir/src/main/resources/db/migration/production"]
+}
+
+task flywayMigrateDev(dependsOn: flywayMigrate) {
+	description 'Migrates the schema to the latest version and inserts test data for the development.'
+	group 'flyway'
+}
+
+task setMigrateDev() {
+	doLast {
+		flyway {
+			url = props['spring.datasource.url']
+    		user = props['spring.datasource.username']
+    		password = props['spring.datasource.password']
+			validateOnMigrate = true
+
+			//executes production and development sql scripts
+			locations = ["filesystem:$project.projectDir/src/main/resources/db/migration/development"]
+		}
+	}
+}
+
+flywayMigrateDev.dependsOn setMigrateDev
+flywayMigrate.mustRunAfter setMigrateDev

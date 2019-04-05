@@ -10,14 +10,11 @@ import java.util.Optional;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ch.noseryoung.uekbewertung.webContext.domain.mailsending.MailSender;
-
 import ch.noseryoung.uekbewertung.config.UUIDGenerator;
+import ch.noseryoung.uekbewertung.webContext.domain.mailsending.MailSender;
 
 /**
  * This class implements all data access related methods targeted towards the
@@ -60,42 +57,32 @@ public class RatingService {
 		return authorities;
 	}
 
-	/**
-	 * tells mr. repository where to create a rating
-	 * @param Course 
-	 */
 	public void save(Rating rating) {
 		List<Rating> currentRating = ratingRepository.findByCourseAndUser(rating.getCourse(), rating.getUser());
 	
 		if (currentRating.isEmpty()) {
 			try {
 				rating.setUUID(UUIDGenerator.generateUUID());
+				ratingRepository.save(rating);
+				sender.sendEmail(rating.getUser().getEmail());
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
-			}
-			ratingRepository.save(rating);
+			} catch (AddressException e) {
+				e.printStackTrace();
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}			
 		} else {
 			throw new IllegalArgumentException("This rating already exists");
-		}
-		
-		try {
-			sender.sendEmail(rating.getUser().getEmail());
-		} catch (AddressException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * updates the givin rating defined with id 
+	 * updates the given rating defined with id 
 	 * @param new Rating
 	 * @param id
 	 * @throws NoSuchElementException

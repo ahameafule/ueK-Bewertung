@@ -1,39 +1,42 @@
-package ch.noseryoung.uekbewertung.webContext.domain.rating_question;
-
-import java.io.Serializable;
+package ch.noseryoung.uekbewertung.webContext.domain.answer;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.Table;
 
 import ch.noseryoung.uekbewertung.webContext.domain.question.Question;
 import ch.noseryoung.uekbewertung.webContext.domain.rating.Rating;
 
 @Entity
-public class RatingQuestion implements Serializable {
+@Table(name = "answer")
+public class Answer {
+
+	@EmbeddedId
+	private AnswerId id;
 	
-	@Id
-	@ManyToOne
-	@JoinColumn
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("ratingId")
 	private Rating rating;
 	
-	@Id
-	@ManyToOne
-	@JoinColumn
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("questionId")
 	private Question question;
 	
-	@Column(name = "Answer")
+	@Column(name = "answer")
 	private String answer;
 		
-	public RatingQuestion() {}
+	public Answer() {}
 	
-	public RatingQuestion(String answer) {
-		this.answer = answer;
+	public Answer(Rating rating, Question question) {
+		this.rating = rating;
+		this.question = question;
 	}
 	
-	public RatingQuestion(Rating rating, Question question, String answer) {
+	public Answer(Rating rating, Question question, String answer) {
 		this.rating = rating;
 		this.question = question;
 		this.answer = answer;

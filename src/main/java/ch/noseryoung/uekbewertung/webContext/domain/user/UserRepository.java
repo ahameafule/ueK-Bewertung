@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
  * This interface holds all data access related methods targeted towards the
  * entity user.
  *
- * @author Yves Kaufmann
+ * @author lohse
  */
 @Repository
 interface UserRepository extends JpaRepository<User, Long> {

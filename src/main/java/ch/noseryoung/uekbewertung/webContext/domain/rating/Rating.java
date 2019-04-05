@@ -45,6 +45,10 @@ public class Rating {
 		@OneToMany(mappedBy = "rating")
 		private Set<RatingQuestion> ratingQuestions;
 		
+		@ManyToOne
+		@JoinColumn(name = "fk_user")
+		private User user;
+		
 		@Column(name = "UUID")
 		private String UUID;
 		
@@ -53,9 +57,11 @@ public class Rating {
 		/**
 		 * 
 		 * @param remarks
+		 * @param user
 		 */
 		public Rating(String remarks, String UUID) {
 			this.remarks = remarks;
+			this.user = user;
 			this.UUID = UUID;
 		}
 		
@@ -63,10 +69,26 @@ public class Rating {
 		 * 
 		 * @param id
 		 * @param remarks
+		 * @param user
 		 */
-		public Rating(Long id, String remarks) {
+		public Rating(Long id, String remarks, User user) {
 			this.id = id;
 			this.remarks = remarks;
+			this.user = user;
+		}
+
+		/**
+		 * @return the user
+		 */
+		public User getUser() {
+			return user;
+		}
+
+		/**
+		 * @param user the user to set
+		 */
+		public void setUser(User user) {
+			this.user = user;
 		}
 
 		/**

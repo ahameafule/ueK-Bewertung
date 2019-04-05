@@ -1,5 +1,6 @@
 package ch.noseryoung.uekbewertung.webContext.domain.user;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -19,7 +20,7 @@ import ch.noseryoung.uekbewertung.webContext.domain.role.Role;
  * This class is the Entity User. A User can hold multiple roles with its own
  * authorities.
  * 
- * @author Moritz Lauper
+ * @author Joel Ahameafule
  */
 @Entity
 @Table(name = "user")
@@ -35,6 +36,12 @@ public class User {
 	@Column(name = "last_name")
 	private String lastName;
 	
+	@Column(name = "creationdate")
+	private Date creationdate;
+	
+	@Column(name = "email")
+	private String email; 
+	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 		name = "users_role",
@@ -46,16 +53,18 @@ public class User {
 	public User() {}
 
 	/**
-
 	 * @param firstName
 	 * @param lastName
+	 * @param email
+	 * @param creationdate
 	 * @param roles
 	 */
 	public User(
-			String firstName, String lastName, Set<Role> roles
+			String firstName, String lastName, Date creationdate, Set<Role> roles
 	) {
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.creationdate = creationdate; 
 		this.roles = roles;
 	}
 
@@ -63,18 +72,34 @@ public class User {
 	 * @Param id
 	 * @param firstName
 	 * @param lastName
+	 * @param email
+	 * @param creationdate
 	 * @param roles
 	 */
 	public User(
-			Long id, String firstName, String lastName, Set<Role> roles
+			Long id, String firstName, String lastName, Date creationdate, Set<Role> roles
 	) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.creationdate = creationdate;
 		this.roles = roles;
 	}
-
 	
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	/**
 	 * @return the id
 	 */
@@ -127,7 +152,6 @@ public class User {
 	public Set<Role> getRoles() {
 		return roles;
 	}
-
 	
 	/**
 	 * @param roles the roles to set
@@ -135,5 +159,4 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	
 }

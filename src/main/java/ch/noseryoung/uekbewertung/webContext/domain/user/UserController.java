@@ -23,7 +23,7 @@ import ch.noseryoung.uekbewertung.webContext.domain.user.UserService;
 /**
  * This class holds the endpoints is responsible for users
  * 
- * @author Moritz Lauper
+ * @author Joel Ahameafule
  */
 @RestController
 @RequestMapping("/users")
@@ -59,6 +59,14 @@ private UserService userService;
 		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	}
 
+	
+	@PostMapping("/bulk")
+	public ResponseEntity<List<User>> create(@Valid @RequestBody List<User> users) {
+		userService.save(users);
+
+		return new ResponseEntity<>(users, HttpStatus.CREATED);
+	}
+	
 	@PutMapping("/{id}")
 	public ResponseEntity<User> updateById(@PathVariable Long id, @Valid @RequestBody User user) {
 		userService.update(user, id);

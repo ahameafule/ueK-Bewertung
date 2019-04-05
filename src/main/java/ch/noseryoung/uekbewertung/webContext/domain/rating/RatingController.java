@@ -35,6 +35,12 @@ private RatingService ratingService;
 		this.ratingService = service;
 	}
 
+	/**
+	 * This method returns the requested Rating
+	 * 
+	 * @param id Id of the requested Rating
+	 * @return ResponseEntity with the Rating that was requested
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<Rating> getById(@PathVariable Long id) {
 		Optional<Rating> rating = ratingService.findById(id);
@@ -44,6 +50,11 @@ private RatingService ratingService;
 		return new ResponseEntity<>(rating.get(), status);
 	}
 
+	/**
+	 * This method returns all ratings
+	 * 
+	 * @return
+	 */
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<Rating>> getAll() {
 		List<Rating> authorities = ratingService.findAll();
@@ -51,6 +62,11 @@ private RatingService ratingService;
 		return new ResponseEntity<>(authorities, HttpStatus.OK);
 	}
 
+	/**
+	 * This method creates a rating
+	 * 
+	 * @return  ResponseEntity with the rating that was created
+	 */
 	@PostMapping({ "", "/" })
 	public ResponseEntity<Rating> create(@Valid @RequestBody Rating rating) {
 		ratingService.save(rating);
@@ -58,6 +74,13 @@ private RatingService ratingService;
 		return new ResponseEntity<>(rating, HttpStatus.CREATED);
 	}
 
+	/**
+	 * This method updates the requested rating
+	 * 
+	 * @param id Id of the rating that should get updated
+	 * @param rating Rating entity to which the requested course should get updated to
+	 * @return ResponseEntity with the updated rating
+	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<Rating> updateById(@PathVariable Long id, @Valid @RequestBody Rating rating) {
 		ratingService.update(rating, id);
@@ -65,6 +88,12 @@ private RatingService ratingService;
 		return new ResponseEntity<>(rating, HttpStatus.OK);
 	}
 
+	/**
+	 * This method deletes the requested rating
+	 * 
+	 * @param id Id of the rating that should be deleted
+	 * @return ResponseEntity with the outcome of the deletion process
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		ratingService.deleteById(id);

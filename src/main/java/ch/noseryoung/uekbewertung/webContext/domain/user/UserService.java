@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * 
- * @author Moritz Lauper
+ * @author lohse
  */
 @Service
 public class UserService {
@@ -36,6 +36,10 @@ public class UserService {
 
 	public void save(User user) {
 		userRepository.save(user);
+	}
+	
+	public void save(List<User> users) {
+		userRepository.saveAll(users);
 	}
 
 	public void update(User newUser, Long id) throws NoSuchElementException {

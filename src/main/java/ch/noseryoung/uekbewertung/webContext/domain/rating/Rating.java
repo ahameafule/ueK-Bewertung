@@ -2,15 +2,19 @@ package ch.noseryoung.uekbewertung.webContext.domain.rating;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import ch.noseryoung.uekbewertung.webContext.domain.course.Course;
 import ch.noseryoung.uekbewertung.webContext.domain.rating_question.RatingQuestion;
+import ch.noseryoung.uekbewertung.webContext.domain.user.User;
 
 /**
  * This class is the entity authority.
@@ -23,14 +27,26 @@ import ch.noseryoung.uekbewertung.webContext.domain.rating_question.RatingQuesti
 public class Rating {
 	
 		@Id
-		@GeneratedValue
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		@Column(name = "id") 
 		private Long id;
 		
 		@Column(name = "remarks")
 		private String remarks;
 		
-		@OneToMany(mappedBy = "rating", cascade = CascadeType.ALL)
+		@ManyToOne()
+		@JoinColumn(name = "course_id")
+		private Course course;
+		
+		@ManyToOne()
+		@JoinColumn(name = "user_id")
+		private User user;
+		
+		@OneToMany(mappedBy = "rating")
 		private Set<RatingQuestion> ratingQuestions;
+		
+		@Column(name = "UUID")
+		private String UUID;
 		
 		public Rating() {}
 		
@@ -38,8 +54,9 @@ public class Rating {
 		 * 
 		 * @param remarks
 		 */
-		public Rating(String remarks) {
+		public Rating(String remarks, String UUID) {
 			this.remarks = remarks;
+			this.UUID = UUID;
 		}
 		
 		/**
@@ -64,6 +81,48 @@ public class Rating {
 		 */
 		public void setId(Long id) {
 			this.id = id;
+		}
+
+		/**
+		 * @return the uUID
+		 */
+		public String getUUID() {
+			return UUID;
+		}
+
+		/**
+		 * @param uUID the uUID to set
+		 */
+		public void setUUID(String UUID) {
+			this.UUID = UUID;
+		}
+
+		/**
+		 * @return the course
+		 */
+		public Course getCourse() {
+			return course;
+		}
+
+		/**
+		 * @param course the course to set
+		 */
+		public void setCourse(Course course) {
+			this.course = course;
+		}
+
+		/**
+		 * @return the user
+		 */
+		public User getUser() {
+			return user;
+		}
+
+		/**
+		 * @param user the user to set
+		 */
+		public void setUser(User user) {
+			this.user = user;
 		}
 
 		/**

@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author lohse
+ * This class takes the needed properties to be able to send a mail at the user
+ * when a rating was created for him/her
  *
  */
 
@@ -60,7 +62,7 @@ public class MailSender {
 		
 		Message msg = new MimeMessage(session);
 		
-		//Sender of the mail 
+		//Sender of the email 
 		msg.setFrom(new InternetAddress("pablodumboescobar@gmail.com", false));
 		
 		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mailto));

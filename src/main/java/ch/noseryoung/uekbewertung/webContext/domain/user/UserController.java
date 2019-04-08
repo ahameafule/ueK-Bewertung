@@ -36,6 +36,12 @@ private UserService userService;
 		this.userService = service;
 	}
 
+	/**
+	 * This method returns the requested User
+	 * 
+	 * @param id Id of the requested User
+	 * @return ResponseEntity with the User that was requested
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<User> getById(@PathVariable Long id) {
 		Optional<User> user = userService.findById(id);
@@ -45,6 +51,11 @@ private UserService userService;
 		return new ResponseEntity<>(user.get(), status);
 	}
 
+	/**
+	 * This method returns all users
+	 * 
+	 * @return
+	 */
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<User>> getAll() {
 		List<User> authorities = userService.findAll();
@@ -52,6 +63,11 @@ private UserService userService;
 		return new ResponseEntity<>(authorities, HttpStatus.OK);
 	}
 
+	/**
+	 * This method creates a user
+	 * 
+	 * @return  ResponseEntity with the user that was created
+	 */
 	@PostMapping({ "", "/" })
 	public ResponseEntity<User> create(@Valid @RequestBody User user) {
 		userService.save(user);
@@ -59,7 +75,11 @@ private UserService userService;
 		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	}
 
-	
+	/**
+	 * This method creates multiple users
+	 * 
+	 * @return  ResponseEntity with the users that were created
+	 */
 	@PostMapping("/bulk")
 	public ResponseEntity<List<User>> create(@Valid @RequestBody List<User> users) {
 		userService.save(users);
@@ -67,6 +87,13 @@ private UserService userService;
 		return new ResponseEntity<>(users, HttpStatus.CREATED);
 	}
 	
+	/**
+	 * This method updates the requested user
+	 * 
+	 * @param id Id of the user that should get updated
+	 * @param user User entity to which the requested course should get updated to
+	 * @return ResponseEntity with the updated user
+	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<User> updateById(@PathVariable Long id, @Valid @RequestBody User user) {
 		userService.update(user, id);
@@ -74,6 +101,12 @@ private UserService userService;
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 
+	/**
+	 * This method deletes the requested user
+	 * 
+	 * @param id Id of the user that should be deleted
+	 * @return ResponseEntity with the outcome of the deletion process
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		userService.deleteById(id);

@@ -30,20 +30,39 @@ public class RoleService {
 		this.roleRepository = roleRepository;
 	}
 
+	/**
+	 * find role by the giving id
+	 * @param id
+	 * @return
+	 */
 	public Optional<Role> findById(Long id) {
 		Optional<Role> role = roleRepository.findById(id);
 		return role;
 	}
 
+	/**
+	 * find all roles
+	 * @return
+	 */
 	public List<Role> findAll() {
 		List<Role> authorities = roleRepository.findAll();
 		return authorities;
 	}
 
+	/**
+	 * tells the repository where to create a role
+	 * @param Role
+	 */
 	public void save(Role role) {
 		roleRepository.save(role);
 	}
 
+	/**
+	 * updates the givin role defined with id 
+	 * @param newRole
+	 * @param id
+	 * @throws NoSuchElementException
+	 */
 	public void update(Role newRole, Long id) throws NoSuchElementException {
 		Optional<Role> currentRole = roleRepository.findById(id);
 		if (currentRole.isPresent()) {
@@ -54,6 +73,10 @@ public class RoleService {
 		}
 	}
 
+	/**
+	 * Tells the repository where to delete the role
+	 * @param id
+	 */
 	public void deleteById(Long id) {
 		roleRepository.deleteById(id);
 	}

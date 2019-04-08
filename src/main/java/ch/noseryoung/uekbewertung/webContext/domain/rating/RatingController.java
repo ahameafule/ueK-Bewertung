@@ -57,9 +57,9 @@ private RatingService ratingService;
 	 */
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<Rating>> getAll() {
-		List<Rating> authorities = ratingService.findAll();
+		List<Rating> ratings = ratingService.findAll();
 
-		return new ResponseEntity<>(authorities, HttpStatus.OK);
+		return new ResponseEntity<>(ratings, HttpStatus.OK);
 	}
 
 	/**

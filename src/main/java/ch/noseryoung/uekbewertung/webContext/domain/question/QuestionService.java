@@ -27,20 +27,39 @@ public class QuestionService {
 		this.questionRepository = questionRepository;
 	}
 
+	/**
+	 * find question by the giving id
+	 * @param id
+	 * @return
+	 */
 	public Optional<Question> findById(Long id) {
 		Optional<Question> question = questionRepository.findById(id);
 		return question;
 	}
 
+	/**
+	 * find all questions
+	 * @return
+	 */
 	public List<Question> findAll() {
-		List<Question> authorities = questionRepository.findAll();
-		return authorities;
+		List<Question> questions = questionRepository.findAll();
+		return questions;
 	}
 
+	/**
+	 * tells the repository where to create a question
+	 * @param Question
+	 */
 	public void save(Question question) {
 		questionRepository.save(question);
 	}
 
+	/**
+	 * updates the givin question defined with id 
+	 * @param newQuestion
+	 * @param id
+	 * @throws NoSuchElementException
+	 */
 	public void update(Question newQuestion, Long id) throws NoSuchElementException {
 		Optional<Question> currentQuestion = questionRepository.findById(id);
 		if (currentQuestion.isPresent()) {
@@ -50,7 +69,11 @@ public class QuestionService {
 			throw new NoSuchElementException(String.format("No question with given id '%d' found", id));
 		}
 	}
-
+	
+	/**
+	 * Tells the repository where to delete the question
+	 * @param id
+	 */
 	public void deleteById(Long id) {
 		questionRepository.deleteById(id);
 	}

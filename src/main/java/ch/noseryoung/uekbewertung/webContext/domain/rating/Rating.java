@@ -17,7 +17,7 @@ import ch.noseryoung.uekbewertung.webContext.domain.rating_question.RatingQuesti
 import ch.noseryoung.uekbewertung.webContext.domain.user.User;
 
 /**
- * This class is the entity authority.
+ * This class is the entity rating.
  * 
  * @author Joel Ahameafule
  *
@@ -43,7 +43,7 @@ public class Rating {
 		private User user;
 		
 		@OneToMany(mappedBy = "rating")
-		private Set<RatingQuestion> ratingQuestions;
+		private Set<RatingQuestion> ratingQuestions;	
 		
 		@Column(name = "UUID")
 		private String UUID;
@@ -55,7 +55,7 @@ public class Rating {
 		 * @param remarks
 		 * @param user
 		 */
-		public Rating(String remarks, String UUID) {
+		public Rating(String remarks, String UUID, User user) {
 			this.remarks = remarks;
 			this.user = user;
 			this.UUID = UUID;

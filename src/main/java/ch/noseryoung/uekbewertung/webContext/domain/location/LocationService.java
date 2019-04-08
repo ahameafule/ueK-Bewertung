@@ -48,7 +48,7 @@ public class LocationService {
 	}
 	
 	/**
-	 * tells mr. repository where to create a location
+	 * tells the repository where to create a location
 	 * @param location 
 	 */
 
@@ -73,7 +73,7 @@ public class LocationService {
 	}
 	
 	/**
-	 * Tells mrs. repository where to delete the location
+	 * Tells the repository where to delete the location
 	 * @param id
 	 */
 

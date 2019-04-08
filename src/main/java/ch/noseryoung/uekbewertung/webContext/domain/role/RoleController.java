@@ -34,11 +34,20 @@ public class RoleController {
 
 private RoleService roleService;
 	
+/**
+ * @param roleService
+ */
 	@Autowired
 	public RoleController(RoleService service) {
 		this.roleService = service;
 	}
 
+	/**
+	 * This method returns the requested role
+	 * 
+	 * @param id Id of the requested role
+	 * @return ResponseEntity with the role that was requested
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<Role> getById(@PathVariable Long id) {
 		Optional<Role> role = roleService.findById(id);
@@ -48,6 +57,11 @@ private RoleService roleService;
 		return new ResponseEntity<>(role.get(), status);
 	}
 
+	/**
+	 * This method returns all roles
+	 * 
+	 * @return
+	 */
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<Role>> getAll() {
 		List<Role> authorities = roleService.findAll();
@@ -55,6 +69,11 @@ private RoleService roleService;
 		return new ResponseEntity<>(authorities, HttpStatus.OK);
 	}
 
+	/**
+	 * This method creates a role
+	 * 
+	 * @return  ResponseEntity with the role that was created
+	 */
 	@PostMapping({ "", "/" })
 	public ResponseEntity<Role> create(@Valid @RequestBody Role role) {
 		roleService.save(role);
@@ -62,6 +81,13 @@ private RoleService roleService;
 		return new ResponseEntity<>(role, HttpStatus.CREATED);
 	}
 
+	/**
+	 * This method updates the requested role
+	 * 
+	 * @param id Id of the role that should get updated
+	 * @param role Role entity to which the requested role should get updated to
+	 * @return ResponseEntity with the updated role
+	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<Role> updateById(@PathVariable Long id, @Valid @RequestBody Role role) {
 		roleService.update(role, id);
@@ -69,6 +95,12 @@ private RoleService roleService;
 		return new ResponseEntity<>(role, HttpStatus.OK);
 	}
 
+	/**
+	 * This method deletes the requested role
+	 * 
+	 * @param id Id of the role that should be deleted
+	 * @return ResponseEntity with the outcome of the deletion process
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		roleService.deleteById(id);

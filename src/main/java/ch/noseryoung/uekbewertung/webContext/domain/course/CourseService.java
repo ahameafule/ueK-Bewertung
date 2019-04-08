@@ -48,7 +48,7 @@ public class CourseService {
 	}
 	
 	/**
-	 * tells mr. repository where to create a course
+	 * tells the repository where to create a course
 	 * @param Course 
 	 */
 
@@ -73,7 +73,7 @@ public class CourseService {
 	}
 	
 	/**
-	 * Tells mrs. repository where to delete the course
+	 * Tells the repository where to delete the course
 	 * @param id
 	 */
 

@@ -33,7 +33,7 @@ public class CourseController {
 	private CourseService courseService;
 	
 	/**
-	 * @param roleService
+	 * @param courseService
 	 */
 	@Autowired
 	public CourseController(CourseService courseService) {

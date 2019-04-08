@@ -26,21 +26,40 @@ public class AuthorityService {
 	public AuthorityService(AuthorityRepository authorityRepository) {
 		this.authorityRepository = authorityRepository;
 	}
-
+	
+	/**
+	 * find authority by the giving id
+	 * @param id
+	 * @return
+	 */
 	public Optional<Authority> findById(Long id) {
 		Optional<Authority> authority = authorityRepository.findById(id);
 		return authority;
 	}
 
+	/**
+	 * find all authorities
+	 * @return
+	 */
 	public List<Authority> findAll() {
 		List<Authority> authorities = authorityRepository.findAll();
 		return authorities;
 	}
 
+	/**
+	 * tells the repository where to create a authority
+	 * @param Authority
+	 */
 	public void save(Authority authority) {
 		authorityRepository.save(authority);
 	}
 
+	/**
+	 * updates the givin authority defined with id 
+	 * @param newAuthority
+	 * @param id
+	 * @throws NoSuchElementException
+	 */
 	public void update(Authority newAuthority, Long id) throws NoSuchElementException {
 		Optional<Authority> currentAuthority = authorityRepository.findById(id);
 		if (currentAuthority.isPresent()) {
@@ -51,6 +70,10 @@ public class AuthorityService {
 		}
 	}
 
+	/**
+	 * Tells the repository where to delete the authority
+	 * @param id
+	 */
 	public void deleteById(Long id) {
 		authorityRepository.deleteById(id);
 	}

@@ -15,7 +15,7 @@ import ch.noseryoung.uekbewertung.webContext.domain.rating_question.RatingQuesti
 
 
 /**
- * This class is the entity authority.
+ * This class is the entity question.
  * 
  * @author Joel Ahameafule
  *

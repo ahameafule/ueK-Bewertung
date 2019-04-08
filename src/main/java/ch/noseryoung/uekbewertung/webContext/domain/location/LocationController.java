@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * This class holds all REST endpoints targeted towards the entity role
+ * This class holds all REST endpoints targeted towards the entity location
  * 
  * @author lohse
  *
@@ -42,9 +42,9 @@ public class LocationController {
 	}
 	
 	/**
-	 * This method returns the requested role
+	 * This method returns the requested location
 	 * 
-	 * @param id Id of the requested role
+	 * @param id Id of the requested location
 	 * @return ResponseEntity with the location that was requested
 	 */
 	@GetMapping("/{id}")

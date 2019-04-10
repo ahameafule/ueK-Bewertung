@@ -17,7 +17,7 @@ import ch.noseryoung.uekbewertung.webContext.domain.course.Course;
 import ch.noseryoung.uekbewertung.webContext.domain.user.User;
 
 /**
- * This class is the entity rating.
+ * This class is the entity authority.
  * 
  * @author Joel Ahameafule
  *
@@ -42,14 +42,24 @@ public class Rating {
 		@JoinColumn(name = "user_id")
 		private User user;
 		
-		@OneToMany(mappedBy = "rating")
-		private Set<Answer> ratingQuestions;
+		@OneToMany()
+		private Set<Answer> answers;
 		
 		@Column(name = "UUID")
 		private String UUID;
 		
 		public Rating() {}
 		
+		/**
+		 * 
+		 * @param id
+		 */
+		public Rating(Long id) {
+			this.id = id;
+		}
+
+
+
 		/**
 		 * 
 		 * @param remarks
@@ -70,6 +80,20 @@ public class Rating {
 		public Rating(Long id, String remarks, User user) {
 			this.id = id;
 			this.remarks = remarks;
+			this.user = user;
+		}
+
+		/**
+		 * @return the user
+		 */
+		public User getUser() {
+			return user;
+		}
+
+		/**
+		 * @param user the user to set
+		 */
+		public void setUser(User user) {
 			this.user = user;
 		}
 
@@ -116,17 +140,17 @@ public class Rating {
 		}
 
 		/**
-		 * @return the ratingQuestions
+		 * @return the answers
 		 */
-		public Set<Answer> getRatingQuestions() {
-			return ratingQuestions;
+		public Set<Answer> getAnswers() {
+			return answers;
 		}
 
 		/**
-		 * @param ratingQuestions the ratingQuestions to set
+		 * @param answers the answers to set
 		 */
-		public void setRatingQuestions(Set<Answer> ratingQuestions) {
-			this.ratingQuestions = ratingQuestions;
+		public void setAnswers(Set<Answer> ratingQuestions) {
+			this.answers = ratingQuestions;
 		}
 
 		/**
@@ -143,17 +167,13 @@ public class Rating {
 			this.remarks = remarks;
 		}
 
-		/**
-		 * @return the questions
+		/* (non-Javadoc)
+		 * @see java.lang.Object#toString()
 		 */
-		public Set<Answer> getQuestions() {
-			return ratingQuestions;
+		@Override
+		public String toString() {
+			return "Rating [id=" + id + ", remarks=" + remarks + ", course=" + course + ", user=" + user + ", answers="
+					+ answers + ", UUID=" + UUID + "]";
 		}
-
-		/**
-		 * @param questions the roles to set
-		 */
-		public void setQuestions(Set<Answer> questions) {
-			this.ratingQuestions = questions;
-		}
+		
 }

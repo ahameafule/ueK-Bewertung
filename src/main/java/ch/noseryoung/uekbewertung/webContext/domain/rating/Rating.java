@@ -12,12 +12,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import ch.noseryoung.uekbewertung.webContext.domain.answer.Answer;
 import ch.noseryoung.uekbewertung.webContext.domain.course.Course;
-import ch.noseryoung.uekbewertung.webContext.domain.rating_question.RatingQuestion;
 import ch.noseryoung.uekbewertung.webContext.domain.user.User;
 
 /**
- * This class is the entity rating.
+ * This class is the entity authority.
  * 
  * @author Joel Ahameafule
  *
@@ -42,8 +42,8 @@ public class Rating {
 		@JoinColumn(name = "user_id")
 		private User user;
 		
-		@OneToMany(mappedBy = "rating")
-		private Set<RatingQuestion> ratingQuestions;	
+		@OneToMany()
+		private Set<Answer> answers;
 		
 		@Column(name = "UUID")
 		private String UUID;
@@ -52,10 +52,20 @@ public class Rating {
 		
 		/**
 		 * 
+		 * @param id
+		 */
+		public Rating(Long id) {
+			this.id = id;
+		}
+
+
+
+		/**
+		 * 
 		 * @param remarks
 		 * @param user
 		 */
-		public Rating(String remarks, String UUID, User user) {
+		public Rating(String remarks, User user, String UUID) {
 			this.remarks = remarks;
 			this.user = user;
 			this.UUID = UUID;
@@ -70,6 +80,20 @@ public class Rating {
 		public Rating(Long id, String remarks, User user) {
 			this.id = id;
 			this.remarks = remarks;
+			this.user = user;
+		}
+
+		/**
+		 * @return the user
+		 */
+		public User getUser() {
+			return user;
+		}
+
+		/**
+		 * @param user the user to set
+		 */
+		public void setUser(User user) {
 			this.user = user;
 		}
 
@@ -116,31 +140,17 @@ public class Rating {
 		}
 
 		/**
-		 * @return the user
+		 * @return the answers
 		 */
-		public User getUser() {
-			return user;
+		public Set<Answer> getAnswers() {
+			return answers;
 		}
 
 		/**
-		 * @param user the user to set
+		 * @param answers the answers to set
 		 */
-		public void setUser(User user) {
-			this.user = user;
-		}
-
-		/**
-		 * @return the ratingQuestions
-		 */
-		public Set<RatingQuestion> getRatingQuestions() {
-			return ratingQuestions;
-		}
-
-		/**
-		 * @param ratingQuestions the ratingQuestions to set
-		 */
-		public void setRatingQuestions(Set<RatingQuestion> ratingQuestions) {
-			this.ratingQuestions = ratingQuestions;
+		public void setAnswers(Set<Answer> ratingQuestions) {
+			this.answers = ratingQuestions;
 		}
 
 		/**
@@ -157,17 +167,13 @@ public class Rating {
 			this.remarks = remarks;
 		}
 
-		/**
-		 * @return the questions
+		/* (non-Javadoc)
+		 * @see java.lang.Object#toString()
 		 */
-		public Set<RatingQuestion> getQuestions() {
-			return ratingQuestions;
+		@Override
+		public String toString() {
+			return "Rating [id=" + id + ", remarks=" + remarks + ", course=" + course + ", user=" + user + ", answers="
+					+ answers + ", UUID=" + UUID + "]";
 		}
-
-		/**
-		 * @param questions the roles to set
-		 */
-		public void setQuestions(Set<RatingQuestion> questions) {
-			this.ratingQuestions = questions;
-		}
+		
 }

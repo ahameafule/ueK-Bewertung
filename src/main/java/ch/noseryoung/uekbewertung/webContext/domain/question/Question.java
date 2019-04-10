@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import ch.noseryoung.uekbewertung.webContext.domain.rating_question.RatingQuestion;
+import ch.noseryoung.uekbewertung.webContext.domain.answer.Answer;
 
 
 /**
@@ -32,7 +32,7 @@ public class Question {
 	private String text;
 	
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-	private Set<RatingQuestion> ratingQuestions;
+	private Set<Answer> ratingQuestions;
 
 	public Question() {}
 	
@@ -71,14 +71,14 @@ public class Question {
 	/**
 	 * @return the ratingQuestions
 	 */
-	public Set<RatingQuestion> getRatingQuestions() {
+	public Set<Answer> getRatingQuestions() {
 		return ratingQuestions;
 	}
 
 	/**
 	 * @param ratingQuestions the ratingQuestions to set
 	 */
-	public void setRatingQuestions(Set<RatingQuestion> ratingQuestions) {
+	public void setRatingQuestions(Set<Answer> ratingQuestions) {
 		this.ratingQuestions = ratingQuestions;
 	}
 
@@ -99,14 +99,14 @@ public class Question {
 	/**
 	 * @return the questions
 	 */
-	public Set<RatingQuestion> getQuestions() {
+	public Set<Answer> getQuestions() {
 		return ratingQuestions;
 	}
 
 	/**
 	 * @param questions the roles to set
 	 */
-	public void setQuestions(Set<RatingQuestion> questions) {
+	public void setQuestions(Set<Answer> questions) {
 		this.ratingQuestions = questions;
 	}
 	

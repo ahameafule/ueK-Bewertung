@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 
 import ch.noseryoung.uekbewertung.config.UUIDGenerator;
 import ch.noseryoung.uekbewertung.webContext.domain.mailsending.MailSender;
-import ch.noseryoung.uekbewertung.webContext.domain.user.User;
-import ch.noseryoung.uekbewertung.webContext.domain.user.UserRepository;
 
 /**
  * This class implements all data access related methods targeted towards the
@@ -29,23 +27,19 @@ import ch.noseryoung.uekbewertung.webContext.domain.user.UserRepository;
 public class RatingService {
 
 	private RatingRepository ratingRepository;
-	private UserRepository userRepository;
-	private MailSender sender;
+	private MailSender mailSender;
 
 	/**
 	 * @param ratingRepository
-	 * @param sender
-	 * @param userRepository
 	 */
 	@Autowired
-	public RatingService(RatingRepository ratingRepository, MailSender sender, UserRepository userRepository) {
+	public RatingService(RatingRepository ratingRepository, MailSender mailSender) {
 		this.ratingRepository = ratingRepository;
-		this.userRepository = userRepository;
-		this.sender = sender;
+		this.mailSender = mailSender;
 	}
 
 	/**
-	 * find rating by the giving id
+	 * find course by the giving id
 	 * @param id
 	 * @return
 	 */
@@ -59,51 +53,39 @@ public class RatingService {
 	 * @return
 	 */
 	public List<Rating> findAll() {
-		List<Rating> ratings = ratingRepository.findAll();
-		return ratings;
+		List<Rating> authorities = ratingRepository.findAll();
+		return authorities;
 	}
 
-	/**
-	 * tells the repository where to create a rating
-	 * @param Rating
-	 * @param User
-	 */
 	public void save(Rating rating) {
 		List<Rating> currentRating = ratingRepository.findByCourseAndUser(rating.getCourse(), rating.getUser());
 	
-		//Checks UUID
 		if (currentRating.isEmpty()) {
 			try {
 				rating.setUUID(UUIDGenerator.generateUUID());
+				ratingRepository.save(rating);
+				if (rating.getUser().getEmail() != null) {
+					mailSender.sendEmail(rating.getUser().getEmail());
+				}
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
-			}
-			
-			ratingRepository.saveAndFlush(rating);
-			
-			//Checks email
-			User userAdded = userRepository.findById(rating.getUser().getId()).get();
-			
-			try {
-				sender.sendEmail(userAdded.getEmail());
 			} catch (AddressException e) {
 				e.printStackTrace();
 			} catch (MessagingException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
-			
+			}			
 		} else {
 			throw new IllegalArgumentException("This rating already exists");
 		}
 	}
 
 	/**
-	 * updates the givin rating defined with id 
-	 * @param newRating
+	 * updates the given rating defined with id 
+	 * @param new Rating
 	 * @param id
 	 * @throws NoSuchElementException
 	 */
@@ -117,10 +99,6 @@ public class RatingService {
 		}
 	}
 
-	/**
-	 * Tells the repository where to delete the rating
-	 * @param id
-	 */
 	public void deleteById(Long id) {
 		ratingRepository.deleteById(id);
 	}

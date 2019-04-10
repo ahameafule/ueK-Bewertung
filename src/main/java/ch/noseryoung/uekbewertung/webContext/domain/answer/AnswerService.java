@@ -45,14 +45,14 @@ public class AnswerService {
 	}
 
 	public void update(Answer newAnswer, Rating rating, Question question) throws NoSuchElementException {
-		Optional<Answer> currentAnswer = answerRepository.findByRatingAndQuestion(rating, question);
+		/*Optional<Answer> currentAnswer = answerRepository.findByRatingAndQuestion(rating, question);
 		if (currentAnswer.isPresent()) {
 			newAnswer.setRating(rating);
 			newAnswer.setQuestion(question);
 			answerRepository.save(newAnswer);
 		} else {
 			throw new NoSuchElementException(String.format("No answer found"));
-		}
+		}*/
 	}
 
 	public void deleteById(Long id) {

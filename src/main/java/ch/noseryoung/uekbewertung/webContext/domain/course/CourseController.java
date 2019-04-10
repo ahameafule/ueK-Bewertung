@@ -32,10 +32,7 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 @RestController
-@RequestMapping("/course")
-@Api(
-		value = "CourseController"
-	)
+@RequestMapping("/courses")
 public class CourseController {
 
 	private CourseService courseService;

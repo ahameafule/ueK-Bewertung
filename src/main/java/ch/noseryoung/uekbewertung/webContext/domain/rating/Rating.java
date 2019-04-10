@@ -12,8 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import ch.noseryoung.uekbewertung.webContext.domain.answer.Answer;
 import ch.noseryoung.uekbewertung.webContext.domain.course.Course;
-import ch.noseryoung.uekbewertung.webContext.domain.rating_question.RatingQuestion;
 import ch.noseryoung.uekbewertung.webContext.domain.user.User;
 
 /**
@@ -43,7 +43,7 @@ public class Rating {
 		private User user;
 		
 		@OneToMany(mappedBy = "rating")
-		private Set<RatingQuestion> ratingQuestions;	
+		private Set<Answer> ratingQuestions;
 		
 		@Column(name = "UUID")
 		private String UUID;
@@ -55,7 +55,7 @@ public class Rating {
 		 * @param remarks
 		 * @param user
 		 */
-		public Rating(String remarks, String UUID, User user) {
+		public Rating(String remarks, User user, String UUID) {
 			this.remarks = remarks;
 			this.user = user;
 			this.UUID = UUID;
@@ -116,30 +116,16 @@ public class Rating {
 		}
 
 		/**
-		 * @return the user
-		 */
-		public User getUser() {
-			return user;
-		}
-
-		/**
-		 * @param user the user to set
-		 */
-		public void setUser(User user) {
-			this.user = user;
-		}
-
-		/**
 		 * @return the ratingQuestions
 		 */
-		public Set<RatingQuestion> getRatingQuestions() {
+		public Set<Answer> getRatingQuestions() {
 			return ratingQuestions;
 		}
 
 		/**
 		 * @param ratingQuestions the ratingQuestions to set
 		 */
-		public void setRatingQuestions(Set<RatingQuestion> ratingQuestions) {
+		public void setRatingQuestions(Set<Answer> ratingQuestions) {
 			this.ratingQuestions = ratingQuestions;
 		}
 
@@ -160,14 +146,14 @@ public class Rating {
 		/**
 		 * @return the questions
 		 */
-		public Set<RatingQuestion> getQuestions() {
+		public Set<Answer> getQuestions() {
 			return ratingQuestions;
 		}
 
 		/**
 		 * @param questions the roles to set
 		 */
-		public void setQuestions(Set<RatingQuestion> questions) {
+		public void setQuestions(Set<Answer> questions) {
 			this.ratingQuestions = questions;
 		}
 }

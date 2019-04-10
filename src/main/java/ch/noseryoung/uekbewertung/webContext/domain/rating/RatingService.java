@@ -15,8 +15,11 @@ import org.springframework.stereotype.Service;
 
 import ch.noseryoung.uekbewertung.config.UUIDGenerator;
 import ch.noseryoung.uekbewertung.webContext.domain.mailsending.MailSender;
+<<<<<<< HEAD
 import ch.noseryoung.uekbewertung.webContext.domain.user.User;
 import ch.noseryoung.uekbewertung.webContext.domain.user.UserRepository;
+=======
+>>>>>>> edit-entity
 
 /**
  * This class implements all data access related methods targeted towards the
@@ -63,11 +66,14 @@ public class RatingService {
 		return ratings;
 	}
 
+<<<<<<< HEAD
 	/**
 	 * tells the repository where to create a rating
 	 * @param Rating
 	 * @param User
 	 */
+=======
+>>>>>>> edit-entity
 	public void save(Rating rating) {
 		List<Rating> currentRating = ratingRepository.findByCourseAndUser(rating.getCourse(), rating.getUser());
 	
@@ -75,10 +81,13 @@ public class RatingService {
 		if (currentRating.isEmpty()) {
 			try {
 				rating.setUUID(UUIDGenerator.generateUUID());
+				ratingRepository.save(rating);
+				sender.sendEmail(rating.getUser().getEmail());
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
+<<<<<<< HEAD
 			}
 			
 			ratingRepository.saveAndFlush(rating);
@@ -88,22 +97,33 @@ public class RatingService {
 			
 			try {
 				sender.sendEmail(userAdded.getEmail());
+=======
+>>>>>>> edit-entity
 			} catch (AddressException e) {
 				e.printStackTrace();
 			} catch (MessagingException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
+<<<<<<< HEAD
 			}
 			
+=======
+			}			
+>>>>>>> edit-entity
 		} else {
 			throw new IllegalArgumentException("This rating already exists");
 		}
 	}
 
 	/**
+<<<<<<< HEAD
 	 * updates the givin rating defined with id 
 	 * @param newRating
+=======
+	 * updates the given rating defined with id 
+	 * @param new Rating
+>>>>>>> edit-entity
 	 * @param id
 	 * @throws NoSuchElementException
 	 */

@@ -32,10 +32,7 @@ import io.swagger.annotations.ApiOperation;
  *
  */
 @RestController
-@RequestMapping("/location")
-@Api(
-		value = "LocationController"
-	)
+@RequestMapping("/locations")
 public class LocationController {
 
 	private LocationService locationService;

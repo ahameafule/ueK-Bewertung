@@ -1,44 +1,45 @@
-package ch.noseryoung.uekbewertung.webContext.domain.rating_question;
+package ch.noseryoung.uekbewertung.webContext.domain.answer;
 
 import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import ch.noseryoung.uekbewertung.webContext.domain.question.Question;
 import ch.noseryoung.uekbewertung.webContext.domain.rating.Rating;
 
 @Entity
-public class RatingQuestion implements Serializable {
+@Table(name = "answer")
+@IdClass(AnswerId.class)
+public class Answer implements Serializable {
 	
-	@Id
-	@ManyToOne
-	@JoinColumn
-	private Rating rating;
+	@Id @ManyToOne
+    @JoinColumn(name = "rating_id", nullable = false, insertable = false, updatable = false)
+    private Rating rating;
+ 
+	@Id @ManyToOne
+    @JoinColumn(name = "question_id", nullable = false, insertable = false, updatable = false)
+    private Question question;
 	
-	@Id
-	@ManyToOne
-	@JoinColumn
-	private Question question;
-	
-	@Column(name = "Answer")
-	private String answer;
+	@Column(name = "answer")
+	private byte answer;
 		
-	public RatingQuestion() {}
+	public Answer() {}
 	
-	public RatingQuestion(String answer) {
-		this.answer = answer;
-	}
-	
-	public RatingQuestion(Rating rating, Question question, String answer) {
+	public Answer(Rating rating, Question question) {
 		this.rating = rating;
 		this.question = question;
+	}
+	
+	public Answer(byte answer) {
 		this.answer = answer;
 	}
-
+	
 	/**
 	 * @return the rating
 	 */
@@ -70,17 +71,25 @@ public class RatingQuestion implements Serializable {
 	/**
 	 * @return the answer
 	 */
-	public String getAnswer() {
+	public byte getAnswer() {
 		return answer;
 	}
 
 	/**
 	 * @param answer the answer to set
 	 */
-	public void setAnswer(String answer) {
+	public void setAnswer(byte answer) {
 		this.answer = answer;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Answer [rating=" + rating + ", question=" + question + ", answer=" + answer + "]";
 	}
 	
 	
-
+	
 }

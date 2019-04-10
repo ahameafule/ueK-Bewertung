@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package ch.noseryoung.uekbewertung.webContext.domain;
 
 import org.springframework.context.annotation.Bean;

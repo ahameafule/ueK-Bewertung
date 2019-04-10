@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ch.noseryoung.uekbewertung.webContext.domain.user.User;
 import ch.noseryoung.uekbewertung.webContext.domain.user.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * This class holds the endpoints is responsible for users
@@ -27,6 +31,9 @@ import ch.noseryoung.uekbewertung.webContext.domain.user.UserService;
  */
 @RestController
 @RequestMapping("/users")
+@Api(
+		value = "AuthorityController"
+	)
 public class UserController {
 	
 private UserService userService;
@@ -42,6 +49,16 @@ private UserService userService;
 	 * @param id Id of the requested User
 	 * @return ResponseEntity with the User that was requested
 	 */
+	@ApiOperation(
+			value = "This endpoint returns the requested user",
+			response = User.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+					value = "Id of requested user",
+					required = true
+			) }
+		)
 	@GetMapping("/{id}")
 	public ResponseEntity<User> getById(@PathVariable Long id) {
 		Optional<User> user = userService.findById(id);
@@ -56,6 +73,10 @@ private UserService userService;
 	 * 
 	 * @return
 	 */
+	@ApiOperation(
+			value = "This endpoint returns all users",
+			response = User.class
+		)
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<User>> getAll() {
 		List<User> authorities = userService.findAll();
@@ -68,6 +89,16 @@ private UserService userService;
 	 * 
 	 * @return  ResponseEntity with the user that was created
 	 */
+	@ApiOperation(
+			value = "This endpoint creates a user",
+			response = User.class 
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+				value = "The user to be created",
+				required = true
+			) }
+		)
 	@PostMapping({ "", "/" })
 	public ResponseEntity<User> create(@Valid @RequestBody User user) {
 		userService.save(user);
@@ -80,6 +111,16 @@ private UserService userService;
 	 * 
 	 * @return  ResponseEntity with the users that were created
 	 */
+	@ApiOperation(
+			value = "This endpoint creates multiple users",
+			response = User.class 
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+				value = "The users which will be created",
+				required = true
+			) }
+		)
 	@PostMapping("/bulk")
 	public ResponseEntity<List<User>> create(@Valid @RequestBody List<User> users) {
 		userService.save(users);
@@ -94,6 +135,16 @@ private UserService userService;
 	 * @param user User entity to which the requested course should get updated to
 	 * @return ResponseEntity with the updated user
 	 */
+	@ApiOperation(
+			value = "This endpoint updates the requested user",
+			response = User.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+				value = "The logged in user",
+				required = true
+				) }
+		)
 	@PutMapping("/{id}")
 	public ResponseEntity<User> updateById(@PathVariable Long id, @Valid @RequestBody User user) {
 		userService.update(user, id);
@@ -107,6 +158,16 @@ private UserService userService;
 	 * @param id Id of the user that should be deleted
 	 * @return ResponseEntity with the outcome of the deletion process
 	 */
+	@ApiOperation(
+			value = "This endpoint deletes the requested user",
+			response = User.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+					value = "Id of requested user",
+					required = true
+			) }
+		)
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		userService.deleteById(id);

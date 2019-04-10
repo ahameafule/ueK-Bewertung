@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ch.noseryoung.uekbewertung.webContext.domain.question.Question;
 import ch.noseryoung.uekbewertung.webContext.domain.question.QuestionService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 
 /**
@@ -29,6 +33,9 @@ import ch.noseryoung.uekbewertung.webContext.domain.question.QuestionService;
  */
 @RestController
 @RequestMapping("/questions")
+@Api(
+		value = "QuestionController"
+	)
 public class QuestionController {
 
 	private QuestionService questionService;
@@ -47,6 +54,16 @@ public class QuestionController {
 	 * @param id Id of the requested question
 	 * @return ResponseEntity with the question that was requested
 	 */
+	@ApiOperation(
+			value = "This endpoint returns the requested question",
+			response = Question.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+					value = "Id of requested question",
+					required = true
+			) }
+		)
 	@GetMapping("/{id}")
 	public ResponseEntity<Question> getById(@PathVariable Long id) {
 		Optional<Question> question = questionService.findById(id);
@@ -61,6 +78,10 @@ public class QuestionController {
 	 * 
 	 * @return
 	 */
+	@ApiOperation(
+			value = "This endpoint returns all questions",
+			response = Question.class
+		)
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<Question>> getAll() {
 		List<Question> authorities = questionService.findAll();
@@ -73,6 +94,16 @@ public class QuestionController {
 	 * 
 	 * @return  ResponseEntity with the question that was created
 	 */
+	@ApiOperation(
+			value = "This endpoint creates a question",
+			response = Question.class 
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+				value = "The question to be created",
+				required = true
+			) }
+		)
 	@PostMapping({ "", "/" })
 	public ResponseEntity<Question> create(@Valid @RequestBody Question question) {
 		questionService.save(question);
@@ -87,6 +118,16 @@ public class QuestionController {
 	 * @param question Question entity to which the requested question should get updated to
 	 * @return ResponseEntity with the updated question
 	 */
+	@ApiOperation(
+			value = "This endpoint updates the requested question",
+			response = Question.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+				value = "The logged in question",
+				required = true
+				) }
+		)
 	@PutMapping("/{id}")
 	public ResponseEntity<Question> updateById(@PathVariable Long id, @Valid @RequestBody Question question) {
 		questionService.update(question, id);
@@ -100,6 +141,16 @@ public class QuestionController {
 	 * @param id Id of the question that should be deleted
 	 * @return ResponseEntity with the outcome of the deletion process
 	 */
+	@ApiOperation(
+			value = "This endpoint deletes the requested question",
+			response = Question.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+					value = "Id of requested question",
+					required = true
+			) }
+		)
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		questionService.deleteById(id);

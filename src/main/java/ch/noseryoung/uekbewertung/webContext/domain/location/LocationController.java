@@ -20,6 +20,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * This class holds all REST endpoints targeted towards the entity location
  * 
@@ -28,6 +33,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/location")
+@Api(
+		value = "LocationController"
+	)
 public class LocationController {
 
 	private LocationService locationService;
@@ -47,6 +55,16 @@ public class LocationController {
 	 * @param id Id of the requested location
 	 * @return ResponseEntity with the location that was requested
 	 */
+	@ApiOperation(
+			value = "This endpoint returns the requested location",
+			response = Location.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+					value = "Id of requested location",
+					required = true
+			) }
+		)
 	@GetMapping("/{id}")
 	public ResponseEntity<Location> getById(@PathVariable Long id) {
 		Optional<Location> location = locationService.findById(id);
@@ -63,6 +81,10 @@ public class LocationController {
 	 * 
 	 * @return
 	 */
+	@ApiOperation(
+			value = "This endpoint returns all locations",
+			response = Location.class
+		)
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<Location>> getAll() {
 		List<Location> locations = locationService.findAll();
@@ -74,6 +96,16 @@ public class LocationController {
 	 * 
 	 * @return ResponseEntity with the location that was created
 	 */
+	@ApiOperation(
+			value = "This endpoint creates a location",
+			response = Location.class 
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+				value = "The location to be created",
+				required = true
+			) }
+		)
 	@PostMapping({ "", "/" })
 	public ResponseEntity<Location> create(@Valid @RequestBody Location location) {
 		locationService.save(location);
@@ -87,6 +119,16 @@ public class LocationController {
 	 * @param location Location entity to which the requested location get updated
 	 * @return ResponseEntity with the updated location
 	 */
+	@ApiOperation(
+			value = "This endpoint updates the requested location",
+			response = Location.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+				value = "The logged in location",
+				required = true
+				) }
+		)
 	@PutMapping("/{id}")
 	public ResponseEntity<Location> updatedById(@PathVariable Long id, @Valid @RequestBody Location location) {
 		locationService.update(location, id);
@@ -99,6 +141,16 @@ public class LocationController {
 	 * @param id Id of the location that should be deleted
 	 * @return ResponseEntity with the outcome of the deletion process of location
 	 */
+	@ApiOperation(
+			value = "This endpoint deletes the requested location",
+			response = Location.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+					value = "Id of requested location",
+					required = true
+			) }
+		)
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		locationService.deleteById(id);

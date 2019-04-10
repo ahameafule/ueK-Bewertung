@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ch.noseryoung.uekbewertung.webContext.domain.role.Role;
 import ch.noseryoung.uekbewertung.webContext.domain.role.RoleService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 
 /**
@@ -29,7 +33,9 @@ import ch.noseryoung.uekbewertung.webContext.domain.role.RoleService;
  */
 @RestController
 @RequestMapping("/roles")
-
+@Api(
+		value = "RoleController"
+	)
 public class RoleController {
 
 private RoleService roleService;
@@ -48,6 +54,16 @@ private RoleService roleService;
 	 * @param id Id of the requested role
 	 * @return ResponseEntity with the role that was requested
 	 */
+	@ApiOperation(
+			value = "This endpoint returns the requested role",
+			response = Role.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+					value = "Id of requested role",
+					required = true
+			) }
+		)
 	@GetMapping("/{id}")
 	public ResponseEntity<Role> getById(@PathVariable Long id) {
 		Optional<Role> role = roleService.findById(id);
@@ -62,6 +78,10 @@ private RoleService roleService;
 	 * 
 	 * @return
 	 */
+	@ApiOperation(
+			value = "This endpoint returns all roles",
+			response = Role.class
+		)
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<Role>> getAll() {
 		List<Role> authorities = roleService.findAll();
@@ -74,6 +94,16 @@ private RoleService roleService;
 	 * 
 	 * @return  ResponseEntity with the role that was created
 	 */
+	@ApiOperation(
+			value = "This endpoint creates a role",
+			response = Role.class 
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+				value = "The role to be created",
+				required = true
+			) }
+		)
 	@PostMapping({ "", "/" })
 	public ResponseEntity<Role> create(@Valid @RequestBody Role role) {
 		roleService.save(role);
@@ -88,6 +118,16 @@ private RoleService roleService;
 	 * @param role Role entity to which the requested role should get updated to
 	 * @return ResponseEntity with the updated role
 	 */
+	@ApiOperation(
+			value = "This endpoint updates the requested role",
+			response = Role.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+				value = "The logged in role",
+				required = true
+				) }
+		)
 	@PutMapping("/{id}")
 	public ResponseEntity<Role> updateById(@PathVariable Long id, @Valid @RequestBody Role role) {
 		roleService.update(role, id);
@@ -101,6 +141,16 @@ private RoleService roleService;
 	 * @param id Id of the role that should be deleted
 	 * @return ResponseEntity with the outcome of the deletion process
 	 */
+	@ApiOperation(
+			value = "This endpoint deletes the requested role",
+			response = Role.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+					value = "Id of requested role",
+					required = true
+			) }
+		)
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		roleService.deleteById(id);

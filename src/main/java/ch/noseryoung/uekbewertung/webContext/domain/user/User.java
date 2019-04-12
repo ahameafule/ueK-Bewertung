@@ -128,20 +128,6 @@ public class User {
 	}
 
 	/**
-	 * @return the creationdate
-	 */
-	public Date getCreationdate() {
-		return creationdate;
-	}
-
-	/**
-	 * @param creationdate the creationdate to set
-	 */
-	public void setCreationdate(Date creationdate) {
-		this.creationdate = creationdate;
-	}
-
-	/**
 	 * @param id the id to set
 	 */
 	public void setId(Long id) {

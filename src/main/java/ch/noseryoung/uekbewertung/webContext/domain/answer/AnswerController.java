@@ -138,9 +138,6 @@ public class AnswerController {
 					required = true
 			) }
 		)
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-		answerService.deleteById(id);
 	@DeleteMapping({"", "/"})
 	public ResponseEntity<Void> delete(@Valid @RequestBody Answer answer) {
 		answerService.delete(answer);

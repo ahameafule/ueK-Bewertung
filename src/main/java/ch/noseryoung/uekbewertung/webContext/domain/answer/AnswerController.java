@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ch.noseryoung.uekbewertung.webContext.domain.rating.Rating;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -66,6 +68,13 @@ public class AnswerController {
 
 		return new ResponseEntity<>(answer.get(), status);
 	}
+	
+	@GetMapping("/getByRating")
+	public ResponseEntity<List<Answer>> getByRating(@Valid @RequestBody Rating rating) {
+		List<Answer> authorities = answerService.findAll();
+
+		return new ResponseEntity<>(authorities, HttpStatus.OK);
+	}
 
 	/**
 	 * This method returns all answers
@@ -105,13 +114,13 @@ public class AnswerController {
 
 		return new ResponseEntity<>(answer, HttpStatus.CREATED);
 	}
-/*
-	@PutMapping("/{id}")
-	public ResponseEntity<Answer> updateById(@PathVariable Long id, @Valid @RequestBody Answer answer) {
-		answerService.update(answer, id);
+
+	@PutMapping({ "", "/" })
+	public ResponseEntity<Answer> update(@Valid @RequestBody Answer answer) {
+		answerService.update(answer);
 
 		return new ResponseEntity<>(answer, HttpStatus.OK);
-	}*/
+	}
 
 	/**
 	 * This method deletes the requested answer
@@ -132,6 +141,9 @@ public class AnswerController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		answerService.deleteById(id);
+	@DeleteMapping({"", "/"})
+	public ResponseEntity<Void> delete(@Valid @RequestBody Answer answer) {
+		answerService.delete(answer);
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}

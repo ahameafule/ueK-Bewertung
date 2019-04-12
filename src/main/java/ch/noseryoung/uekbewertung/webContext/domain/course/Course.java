@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -35,12 +34,12 @@ public class Course {
 	private String courseNumber;
 		
 	@ManyToOne
-	@JoinColumn(name = "fk_location")
+	@JoinColumn(name = "location")
 	private Location location; 
 		
 	@ManyToOne
-	@JoinColumn(name = "fk_user")
-	private User user;
+	@JoinColumn(name = "course_lead")
+	private User courseLead;
 
 	/**
 	 * 
@@ -52,10 +51,10 @@ public class Course {
 	 * @param location
 	 * @param user
 	 */
-	public Course(String courseNumber, Location location, User user) {
+	public Course(String courseNumber, Location location, User courseLead) {
 		this.courseNumber = courseNumber;
 		this.location = location;
-		this.user = user;
+		this.courseLead = courseLead;
 	}
 	
 	/**
@@ -64,11 +63,11 @@ public class Course {
 	 * @param location
 	 * @param user
 	 */
-	public Course(Long id, String courseNumber, Location location, User user) {
+	public Course(Long id, String courseNumber, Location location, User courseLead) {
 		this.id = id; 
 		this.courseNumber = courseNumber;
 		this.location = location;
-		this.user = user;
+		this.courseLead = courseLead;
 	}
 
 	/**
@@ -114,17 +113,17 @@ public class Course {
 	}
 
 	/**
-	 * @return the user
+	 * @return the courseLead
 	 */
-	public User getUser() {
-		return user;
+	public User getCourseLead() {
+		return courseLead;
 	}
 
 	/**
-	 * @param user the user to set
+	 * @param courseLead the course lead to set
 	 */
-	public void setUser(User user) {
-		this.user = user;
+	public void setCourseLead(User courseLead) {
+		this.courseLead = courseLead;
 	}	
 }
 	

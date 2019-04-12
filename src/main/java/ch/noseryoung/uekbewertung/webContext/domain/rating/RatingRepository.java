@@ -1,6 +1,7 @@
 package ch.noseryoung.uekbewertung.webContext.domain.rating;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -21,4 +22,8 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
 	//List<Rating> getByCourseIdAndUserId(@Param("courseId") Long course_id, @Param("userId") Long user_id);
 	
 	List<Rating> findByCourseAndUser(Course course, User user);
+	
+	Optional<Rating> findByuuid(String uuid);
+	
+	Optional<Rating> findByUser(User user);
 }

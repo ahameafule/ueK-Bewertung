@@ -68,12 +68,12 @@ public class MailSender {
 		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mailto));
 		
 		//Title of the email
-		msg.setSubject("Best\u00E4tigungsmail \u00fcK");
+		msg.setSubject("Bestätigungsmail üK");
 		msg.setSentDate(new Date());
 		
 		MimeBodyPart messageBodyPart = new MimeBodyPart();
 		//Message input
-		messageBodyPart.setContent("Deine \u00fcK-Bewertung wurde erstellt", "text/html");
+		messageBodyPart.setContent("Deine üK-Bewertung wurde erstellt", "text/html");
 		
 		Multipart multipart = new MimeMultipart();
 		multipart.addBodyPart(messageBodyPart);

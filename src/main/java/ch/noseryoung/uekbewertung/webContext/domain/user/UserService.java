@@ -6,6 +6,9 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ch.noseryoung.uekbewertung.webContext.domain.role.Role;
@@ -18,22 +21,40 @@ import ch.noseryoung.uekbewertung.webContext.domain.role.Role;
  *
  */
 @Service
-public class UserService {
-	
+public class UserService implements UserDetailsService {
+
 	private UserRepository userRepository;
+
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	/**
 	 * @param userRepository
 	 */
 	@Autowired
-	public UserService(UserRepository userRepository) {
+	public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.userRepository = userRepository;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
 
-	/**
-	 * find all users
-	 * @return
-	 */
+	@Override
+	public UserDetailsImpl loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = findByUsername(username);
+
+		if (user == null) {
+			throw new UsernameNotFoundException("User could not be found");
+		}
+		return new UserDetailsImpl(user);
+	}
+	
+	public User findByUsername(String name) {
+		User user = ((UserRepository) userRepository).findByLastName(name);
+		return user;
+	}
+	
+	public void deleteByUsername(String name) {
+		((UserRepository) userRepository).deleteByLastName(name);
+	}
+
 	public Optional<User> findById(Long id) {
 		Optional<User> user = userRepository.findById(id);
 		return user;

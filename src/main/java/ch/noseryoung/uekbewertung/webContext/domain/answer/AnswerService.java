@@ -34,6 +34,11 @@ public class AnswerService {
 		Optional<Answer> answer = answerRepository.findById(id);
 		return answer;
 	}
+	
+	public Optional<Answer> findByRating(Rating rating) {
+		Optional<Answer> answer = answerRepository.findByRating(rating);
+		return answer;
+	}
 
 	public List<Answer> findAll() {
 		List<Answer> authorities = answerRepository.findAll();
@@ -44,18 +49,20 @@ public class AnswerService {
 		answerRepository.save(answer);
 	}
 
-	public void update(Answer newAnswer, Rating rating, Question question) throws NoSuchElementException {
-		/*Optional<Answer> currentAnswer = answerRepository.findByRatingAndQuestion(rating, question);
+	public void update(Answer newAnswer) throws NoSuchElementException {
+		Optional<Answer> currentAnswer = answerRepository.findByRatingAndQuestion(newAnswer.getRating(), newAnswer.getQuestion());
 		if (currentAnswer.isPresent()) {
-			newAnswer.setRating(rating);
-			newAnswer.setQuestion(question);
 			answerRepository.save(newAnswer);
 		} else {
 			throw new NoSuchElementException(String.format("No answer found"));
-		}*/
+		}
 	}
 
 	public void deleteById(Long id) {
 		answerRepository.deleteById(id);
+	}
+	
+	public void delete(Answer answer) {
+		answerRepository.delete(answer);
 	}
 }

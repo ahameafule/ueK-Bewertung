@@ -30,6 +30,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	
 	@Column(name = "first_name")
 	private String firstName;
 	
@@ -41,6 +42,9 @@ public class User {
 	
 	@Column(name = "email")
 	private String email; 
+	
+	@Column(name = "password")
+	private String password;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
@@ -60,12 +64,28 @@ public class User {
 	 * @param roles
 	 */
 	public User(
-			String firstName, String lastName, Date creationdate, Set<Role> roles
+			String firstName, String lastName, Date creationdate
+	) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.creationdate = creationdate; 
+	}
+	
+	/**
+	 * @param firstName
+	 * @param lastName
+	 * @param email
+	 * @param creationdate
+	 * @param roles
+	 */
+	public User(
+			String firstName, String lastName, Date creationdate, Set<Role> roles, String password
 	) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.creationdate = creationdate; 
 		this.roles = roles;
+		this.password = password;
 	}
 
 	/**
@@ -161,6 +181,34 @@ public class User {
 	
 	
 	/**
+	 * @return the creationdate
+	 */
+	public Date getCreationdate() {
+		return creationdate;
+	}
+
+	/**
+	 * @param creationdate the creationdate to set
+	 */
+	public void setCreationdate(Date creationdate) {
+		this.creationdate = creationdate;
+	}
+
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	/**
 	 * @return the roles
 	 */
 	public Set<Role> getRoles() {
@@ -173,4 +221,6 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+	
+	
 }

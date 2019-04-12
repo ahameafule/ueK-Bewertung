@@ -1,17 +1,11 @@
 package ch.noseryoung.uekbewertung.webContext.domain.question;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import ch.noseryoung.uekbewertung.webContext.domain.answer.Answer;
 
 
 /**
@@ -26,16 +20,18 @@ public class Question {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
 	
 	@Column(name = "text")
 	private String text;
-	
-	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-	private Set<Answer> ratingQuestions;
 
 	public Question() {}
 	
+	public Question(Long id) {
+		this.id = id;
+	}
+
 	/**
 	 * 
 	 * @param text
@@ -69,20 +65,6 @@ public class Question {
 	}
 
 	/**
-	 * @return the ratingQuestions
-	 */
-	public Set<Answer> getRatingQuestions() {
-		return ratingQuestions;
-	}
-
-	/**
-	 * @param ratingQuestions the ratingQuestions to set
-	 */
-	public void setRatingQuestions(Set<Answer> ratingQuestions) {
-		this.ratingQuestions = ratingQuestions;
-	}
-
-	/**
 	 * @return the text
 	 */
 	public String getText() {
@@ -96,18 +78,12 @@ public class Question {
 		this.text = text;
 	}
 
-	/**
-	 * @return the questions
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
 	 */
-	public Set<Answer> getQuestions() {
-		return ratingQuestions;
-	}
-
-	/**
-	 * @param questions the roles to set
-	 */
-	public void setQuestions(Set<Answer> questions) {
-		this.ratingQuestions = questions;
+	@Override
+	public String toString() {
+		return "Question [id=" + id + ", text=" + text + "]";
 	}
 	
 }

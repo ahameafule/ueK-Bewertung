@@ -11,10 +11,12 @@ import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import ch.noseryoung.uekbewertung.config.UUIDGenerator;
 import ch.noseryoung.uekbewertung.webContext.domain.mailsending.MailSender;
+import ch.noseryoung.uekbewertung.webContext.domain.user.User;
 
 /**
  * This class implements all data access related methods targeted towards the
@@ -46,6 +48,14 @@ public class RatingService {
 	public Optional<Rating> findById(Long id) {
 		Optional<Rating> rating = ratingRepository.findById(id);
 		return rating;
+	}
+	
+	public Optional<Rating> findByUUID(String uuid) {
+		return ratingRepository.findByuuid(uuid);
+	}
+	
+	public Optional<Rating> findByUser(User user) {
+		return ratingRepository.findByUser(user);
 	}
 
 	/**
@@ -96,6 +106,22 @@ public class RatingService {
 			ratingRepository.save(newRating);
 		} else {
 			throw new NoSuchElementException(String.format("No rating with given id '%d' found", id));
+		}
+	}
+	
+	/**
+	 * 
+	 * @param newRating
+	 * @param id
+	 * @throws NoSuchElementException
+	 */
+	public void updateByUUID(Rating newRating, String uuid) throws NoSuchElementException {
+		Optional<Rating> currentRating = ratingRepository.findByuuid(uuid);
+		if (currentRating.isPresent()) {
+			newRating.setUUID(uuid);
+			ratingRepository.save(newRating);
+		} else {
+			throw new NoSuchElementException(String.format("No rating with given uuid '%s' found", uuid));
 		}
 	}
 

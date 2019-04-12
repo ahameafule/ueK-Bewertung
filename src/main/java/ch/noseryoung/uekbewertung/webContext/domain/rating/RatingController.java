@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import ch.noseryoung.uekbewertung.webContext.domain.user.User;
 
 
 /**
@@ -59,6 +61,7 @@ private RatingService ratingService;
 					required = true
 			) }
 		)
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/{id}")
 	public ResponseEntity<Rating> getById(@PathVariable Long id) {
 		Optional<Rating> rating = ratingService.findById(id);
@@ -67,6 +70,30 @@ private RatingService ratingService;
 
 		return new ResponseEntity<>(rating.get(), status);
 	}
+	
+	/**
+	 * 
+	 * @param uuid
+	 * @return
+	 */
+	@GetMapping("/{uuid}")
+	public ResponseEntity<Rating> getByUuid(@PathVariable String uuid) {
+		Optional<Rating> rating = ratingService.findByUUID(uuid);
+		
+		HttpStatus status = (rating.isPresent() ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+
+		return new ResponseEntity<>(rating.get(), status);
+	}
+	
+	@GetMapping("/getByUser")
+	public ResponseEntity<Rating> getByUser(@Valid @RequestBody User user) {
+		Optional<Rating> rating = ratingService.findByUser(user);
+		
+		HttpStatus status = (rating.isPresent() ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+
+		return new ResponseEntity<>(rating.get(), status);
+	}
+
 
 	/**
 	 * This method returns all ratings
@@ -77,6 +104,7 @@ private RatingService ratingService;
 			value = "This endpoint returns all ratings",
 			response = Rating.class
 		)
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<Rating>> getAll() {
 		List<Rating> ratings = ratingService.findAll();
@@ -88,6 +116,7 @@ private RatingService ratingService;
 	 * This method creates a rating
 	 * 
 	 * @return  ResponseEntity with the rating that was created
+	 * 
 	 */
 	@ApiOperation(
 			value = "This endpoint creates a rating",
@@ -99,6 +128,7 @@ private RatingService ratingService;
 				required = true
 			) }
 		)
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping({ "", "/" })
 	public ResponseEntity<Rating> create(@Valid @RequestBody Rating rating) {
 		ratingService.save(rating);
@@ -129,6 +159,20 @@ private RatingService ratingService;
 
 		return new ResponseEntity<>(rating, HttpStatus.OK);
 	}
+	
+	/**
+	 * This method updates the requested rating
+	 * 
+	 * @param id Id of the rating that should get updated
+	 * @param rating Rating entity to which the requested course should get updated to
+	 * @return ResponseEntity with the updated rating
+	 */
+	@PutMapping("/{uuid}")
+	public ResponseEntity<Rating> updateByUUID(@PathVariable String uuid, @Valid @RequestBody Rating rating) {
+		ratingService.updateByUUID(rating, uuid);
+
+		return new ResponseEntity<>(rating, HttpStatus.OK);
+	}
 
 	/**
 	 * This method deletes the requested rating
@@ -146,6 +190,7 @@ private RatingService ratingService;
 					required = true
 			) }
 		)
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		ratingService.deleteById(id);

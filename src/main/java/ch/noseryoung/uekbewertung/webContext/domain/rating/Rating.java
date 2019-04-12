@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import ch.noseryoung.uekbewertung.webContext.domain.answer.Answer;
 import ch.noseryoung.uekbewertung.webContext.domain.course.Course;
 import ch.noseryoung.uekbewertung.webContext.domain.user.User;
@@ -45,8 +47,8 @@ public class Rating {
 		@OneToMany()
 		private Set<Answer> answers;
 		
-		@Column(name = "UUID")
-		private String UUID;
+		@Column(name = "uuid")
+		private String uuid;
 		
 		public Rating() {}
 		
@@ -68,7 +70,7 @@ public class Rating {
 		public Rating(String remarks, User user, String UUID) {
 			this.remarks = remarks;
 			this.user = user;
-			this.UUID = UUID;
+			this.uuid = UUID;
 		}
 		
 		/**
@@ -115,14 +117,14 @@ public class Rating {
 		 * @return the uUID
 		 */
 		public String getUUID() {
-			return UUID;
+			return uuid;
 		}
 
 		/**
 		 * @param uUID the uUID to set
 		 */
 		public void setUUID(String UUID) {
-			this.UUID = UUID;
+			this.uuid = UUID;
 		}
 
 		/**
@@ -173,7 +175,7 @@ public class Rating {
 		@Override
 		public String toString() {
 			return "Rating [id=" + id + ", remarks=" + remarks + ", course=" + course + ", user=" + user + ", answers="
-					+ answers + ", UUID=" + UUID + "]";
+					+ answers + ", UUID=" + uuid + "]";
 		}
 		
 }

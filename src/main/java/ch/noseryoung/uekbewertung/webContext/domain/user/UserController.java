@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,6 +60,7 @@ private UserService userService;
 					required = true
 			) }
 		)
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/{id}")
 	public ResponseEntity<User> getById(@PathVariable Long id) {
 		Optional<User> user = userService.findById(id);
@@ -77,6 +79,7 @@ private UserService userService;
 			value = "This endpoint returns all users",
 			response = User.class
 		)
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<User>> getAll() {
 		List<User> authorities = userService.findAll();
@@ -99,6 +102,8 @@ private UserService userService;
 				required = true
 			) }
 		)
+	
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping({ "", "/" })
 	public ResponseEntity<User> create(@Valid @RequestBody User user) {
 		userService.save(user);
@@ -121,6 +126,7 @@ private UserService userService;
 				required = true
 			) }
 		)
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/bulk")
 	public ResponseEntity<List<User>> create(@Valid @RequestBody List<User> users) {
 		userService.save(users);
@@ -145,6 +151,7 @@ private UserService userService;
 				required = true
 				) }
 		)
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{id}")
 	public ResponseEntity<User> updateById(@PathVariable Long id, @Valid @RequestBody User user) {
 		userService.update(user, id);
@@ -168,6 +175,7 @@ private UserService userService;
 					required = true
 			) }
 		)
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		userService.deleteById(id);

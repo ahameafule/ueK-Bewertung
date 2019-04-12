@@ -18,4 +18,8 @@ import ch.noseryoung.uekbewertung.webContext.domain.rating.Rating;
 @Repository
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
+	Optional<Answer> findByRatingAndQuestion(Rating rating, Question question);
+	
+	Optional<Answer> findByRating(Rating rating);
+	
 }

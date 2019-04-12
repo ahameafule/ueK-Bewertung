@@ -11,6 +11,7 @@ apply plugin: 'io.spring.dependency-management'
 
 group = 'ch.noseryoung'
 version = '0.0.1-SNAPSHOT'
+
 sourceCompatibility = '1.8'
 
 repositories {
@@ -19,7 +20,7 @@ repositories {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	//compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile("mysql:mysql-connector-java:8.0.15")
@@ -42,9 +43,6 @@ dependencies {
 	// Jackson ObjectMapper (JSON)
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.6'
 	
-	// JAXB (XML)
-	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.4.0-b180725.0427'
-	
 	// Spring Boot testing
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	//testCompile('org.springframework.security:spring-security-test')
@@ -57,6 +55,13 @@ dependencies {
 	
 	// mockito
 	testCompile group: 'org.mockito', name: 'mockito-core', version: '2.21.0'
+}
+
+
+tasks.withType(JavaExec) {
+    if (System.getProperty('DEBUG', 'false') == 'true') {
+        jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=9099'
+    }
 }
 
 //Flyway Configuration

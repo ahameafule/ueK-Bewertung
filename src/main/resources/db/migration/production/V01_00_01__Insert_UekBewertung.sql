@@ -1,18 +1,18 @@
 INSERT INTO uekbewertung.location (city, postal, street, telephone) VALUES 
-		('Zürich', '8048', 'Herostrasse 12', '031 917 53 80'),
+		('ZÃ¼rich', '8048', 'Herostrasse 12', '031 917 53 80'),
 		('Worblaufen', '3048', 'Worblaufenstrasse 200', '031 917 53 70');
 		
 INSERT INTO uekbewertung.question (text) VALUES
-		('Die Organisation des ÜK entsprach meinen Erwartungen.'),
+		('Die Organisation des Ã¼K entsprach meinen Erwartungen.'),
 		('Die vermittelten Lerninhalte decken die Handlungsziele des Moduls ab.'),
-		('Ich hatte genügend Zeit, um meine Aufträge und die Übungen zu erledigen.'),
-		('Bei Problemen erhielt ich zusätzliche Unterstützung.'),
-		('Ich komme gerne in den ÜK und fühle mich hier wohl.'),
-		('Die Räume (inkl. IT-Mittel) sind gut eingerichtet.'),
-		('Die Lernformen (z.B. Präsentationen, Workshops, Labore, Aufträge usw.) im ÜK waren abwechslungsreich.'),
-		('Die zur Verfügung gestellten Mittel und Unterlagen haben mich unterstützt.'),
+		('Ich hatte genÃ¼gend Zeit, um meine AuftrÃ¤ge und die Ãœbungen zu erledigen.'),
+		('Bei Problemen erhielt ich zusÃ¤tzliche UnterstÃ¼tzung.'),
+		('Ich komme gerne in den Ã¼K und fÃ¼hle mich hier wohl.'),
+		('Die RÃ¤ume (inkl. IT-Mittel) sind gut eingerichtet.'),
+		('Die Lernformen (z.B. PrÃ¤sentationen, Workshops, Labore, AuftrÃ¤ge usw.) im Ã¼K waren abwechslungsreich.'),
+		('Die zur VerfÃ¼gung gestellten Mittel und Unterlagen haben mich unterstÃ¼tzt.'),
 		('Ich konnte den Inhalt gut verstehen.'),
 		('Ich wurde mit Respekt behandelt.'),
 		('Ich finde die Beurteilungskriterien angemessen.'),
-		('Ich konnte im ÜK engagiert und selbstverantwortlich arbeiten.'),
-		('Das im ÜK Gelernte ist für die Arbeit im Betrieb nützlich.');
+		('Ich konnte im Ã¼K engagiert und selbstverantwortlich arbeiten.'),
+		('Das im Ã¼K Gelernte ist fÃ¼r die Arbeit im Betrieb nÃ¼tzlich.');

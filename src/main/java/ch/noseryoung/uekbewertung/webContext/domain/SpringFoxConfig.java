@@ -6,7 +6,7 @@ package ch.noseryoung.uekbewertung.webContext.domain;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.jsonwebtoken.lang.Collections;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -17,6 +17,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @author lohse
+ * 
+ * This class got the configuration for swagger
+ * and works as a middleman via SpringFox
  *
  */
 @Configuration
@@ -27,23 +30,19 @@ public class SpringFoxConfig {
 		
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
-				.apis(RequestHandlerSelectors.basePackage("ch.noseryoung.uekbewertung"))
+				.apis(RequestHandlerSelectors.basePackage("ch.noseryoung.uekbewertung.webContext.domain"))
 				.paths(PathSelectors.any())
 				.build()
 				.apiInfo(getApiInfo());
 	}
 	
+	/**
+	 * Got all needed Infos for the swagger documentation
+	 * @return ApiInfoBuilder
+	 */
 	private ApiInfo getApiInfo() {
-		
-	    return new ApiInfo(
-	            "TITLE",
-	            "DESCIPRION",
-	            "VERSION",
-	            "TERMS OF SERVICE URL",
-	            new Contact("NAME","URL","EMAIL"),
-	            "LICENSE",
-	            "LICENSE URL",
-	            Collections.arrayToList(null)
-	    );
+		return new ApiInfoBuilder().title("\u00fcK-\u00DCbersicht").description("Description of Prototype Rest API")
+			.termsOfServiceUrl("").contact(new Contact("Noser Young", "Modul Verwaltung", "zuerich@noseryoung.ch")).license("")
+			.licenseUrl("").version("1.0").build();
 	}
 }

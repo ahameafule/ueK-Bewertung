@@ -1,5 +1,6 @@
 package ch.noseryoung.uekbewertung.webContext.domain.answer;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,6 +21,6 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
 	Optional<Answer> findByRatingAndQuestion(Rating rating, Question question);
 	
-	Optional<Answer> findByRating(Rating rating);
+	List<Answer> findByRating(Rating rating);
 	
 }

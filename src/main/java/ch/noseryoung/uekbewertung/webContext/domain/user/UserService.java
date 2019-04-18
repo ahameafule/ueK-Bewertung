@@ -74,6 +74,7 @@ public class UserService implements UserDetailsService {
 	 * @param User
 	 */
 	public void save(User user) {
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		user.setCreationdate(new Date());
 		userRepository.save(user);
 	}
@@ -132,7 +133,7 @@ public class UserService implements UserDetailsService {
 			}
 			
 			if(!isTrainer) {
-				if(user.getCreationdate().before(dateToCheck)) {
+				if(user.getCreationdate() != null && user.getCreationdate().before(dateToCheck)) {
 					userRepository.delete(user);
 				}
 			}

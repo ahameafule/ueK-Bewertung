@@ -61,7 +61,7 @@ private RatingService ratingService;
 					required = true
 			) }
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@GetMapping("/{id}")
 	public ResponseEntity<Rating> getById(@PathVariable Long id) {
 		Optional<Rating> rating = ratingService.findById(id);
@@ -76,6 +76,16 @@ private RatingService ratingService;
 	 * @param uuid
 	 * @return
 	 */
+	@ApiOperation(
+			value = "This endpoint returns the requested rating",
+			response = Rating.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+					value = "UUID of requested rating",
+					required = true
+			) }
+		)
 	@GetMapping("/{uuid}")
 	public ResponseEntity<Rating> getByUuid(@PathVariable String uuid) {
 		Optional<Rating> rating = ratingService.findByUUID(uuid);
@@ -85,6 +95,16 @@ private RatingService ratingService;
 		return new ResponseEntity<>(rating.get(), status);
 	}
 	
+	@ApiOperation(
+			value = "This endpoint returns the requested rating",
+			response = Rating.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+					value = "The user whose rating should be returned",
+					required = true
+			) }
+		)
 	@GetMapping("/getByUser")
 	public ResponseEntity<Rating> getByUser(@Valid @RequestBody User user) {
 		Optional<Rating> rating = ratingService.findByUser(user);
@@ -104,7 +124,7 @@ private RatingService ratingService;
 			value = "This endpoint returns all ratings",
 			response = Rating.class
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<Rating>> getAll() {
 		List<Rating> ratings = ratingService.findAll();
@@ -128,7 +148,7 @@ private RatingService ratingService;
 				required = true
 			) }
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@PostMapping({ "", "/" })
 	public ResponseEntity<Rating> create(@Valid @RequestBody Rating rating) {
 		ratingService.save(rating);
@@ -167,6 +187,16 @@ private RatingService ratingService;
 	 * @param rating Rating entity to which the requested course should get updated to
 	 * @return ResponseEntity with the updated rating
 	 */
+	@ApiOperation(
+			value = "This endpoint updates the requested rating",
+			response = Rating.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+				value = "The logged in rating",
+				required = true
+				) }
+		)
 	@PutMapping("/{uuid}")
 	public ResponseEntity<Rating> updateByUUID(@PathVariable String uuid, @Valid @RequestBody Rating rating) {
 		ratingService.updateByUUID(rating, uuid);
@@ -190,7 +220,7 @@ private RatingService ratingService;
 					required = true
 			) }
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		ratingService.deleteById(id);

@@ -35,8 +35,8 @@ public class AnswerService {
 		return answer;
 	}
 	
-	public Optional<Answer> findByRating(Rating rating) {
-		Optional<Answer> answer = answerRepository.findByRating(rating);
+	public List<Answer> findByRating(Rating rating) {
+		List<Answer> answer = answerRepository.findByRating(rating);
 		return answer;
 	}
 

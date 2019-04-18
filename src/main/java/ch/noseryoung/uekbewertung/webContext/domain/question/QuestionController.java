@@ -105,7 +105,7 @@ public class QuestionController {
 				required = true
 			) }
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@PostMapping({ "", "/" })
 	public ResponseEntity<Question> create(@Valid @RequestBody Question question) {
 		questionService.save(question);
@@ -130,7 +130,7 @@ public class QuestionController {
 				required = true
 				) }
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@PutMapping("/{id}")
 	public ResponseEntity<Question> updateById(@PathVariable Long id, @Valid @RequestBody Question question) {
 		questionService.update(question, id);
@@ -154,7 +154,7 @@ public class QuestionController {
 					required = true
 			) }
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		questionService.deleteById(id);

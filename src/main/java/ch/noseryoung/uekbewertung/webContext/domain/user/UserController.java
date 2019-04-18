@@ -60,7 +60,7 @@ private UserService userService;
 					required = true
 			) }
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@GetMapping("/{id}")
 	public ResponseEntity<User> getById(@PathVariable Long id) {
 		Optional<User> user = userService.findById(id);
@@ -79,7 +79,7 @@ private UserService userService;
 			value = "This endpoint returns all users",
 			response = User.class
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<User>> getAll() {
 		List<User> authorities = userService.findAll();
@@ -103,7 +103,7 @@ private UserService userService;
 			) }
 		)
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@PostMapping({ "", "/" })
 	public ResponseEntity<User> create(@Valid @RequestBody User user) {
 		userService.save(user);
@@ -126,7 +126,7 @@ private UserService userService;
 				required = true
 			) }
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@PostMapping("/bulk")
 	public ResponseEntity<List<User>> create(@Valid @RequestBody List<User> users) {
 		userService.save(users);
@@ -151,7 +151,7 @@ private UserService userService;
 				required = true
 				) }
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@PutMapping("/{id}")
 	public ResponseEntity<User> updateById(@PathVariable Long id, @Valid @RequestBody User user) {
 		userService.update(user, id);
@@ -175,7 +175,7 @@ private UserService userService;
 					required = true
 			) }
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		userService.deleteById(id);

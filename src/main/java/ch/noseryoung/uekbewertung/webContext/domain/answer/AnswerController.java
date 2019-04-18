@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,6 +61,7 @@ public class AnswerController {
 					required = true
 			) }
 		)
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@GetMapping("/{id}")
 	public ResponseEntity<Answer> getById(@PathVariable Long id) {
 		Optional<Answer> answer = answerService.findById(id);
@@ -71,9 +73,9 @@ public class AnswerController {
 	
 	@GetMapping("/getByRating")
 	public ResponseEntity<List<Answer>> getByRating(@Valid @RequestBody Rating rating) {
-		List<Answer> authorities = answerService.findAll();
+		List<Answer> answers = answerService.findByRating(rating);
 
-		return new ResponseEntity<>(authorities, HttpStatus.OK);
+		return new ResponseEntity<>(answers, HttpStatus.OK);
 	}
 
 	/**
@@ -85,6 +87,7 @@ public class AnswerController {
 			value = "This endpoint returns all answers",
 			response = Answer.class
 		)
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<Answer>> getAll() {
 		List<Answer> authorities = answerService.findAll();
@@ -138,6 +141,7 @@ public class AnswerController {
 					required = true
 			) }
 		)
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@DeleteMapping({"", "/"})
 	public ResponseEntity<Void> delete(@Valid @RequestBody Answer answer) {
 		answerService.delete(answer);

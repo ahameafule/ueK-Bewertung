@@ -4,9 +4,16 @@ import java.util.Date;
 
 import ch.noseryoung.uekbewertung.webContext.domain.user.User;
 
+/**
+ * This class puts data in the entity User
+ * @author lohse
+ *
+ */
 class UserDataGenerator implements DataGenerator<User> {
 
-	
+/*
+ * Generates testdata in the entity Question
+ */
 	@SuppressWarnings("deprecation")
 	@Override
 	public DataHolder<User> generate() {

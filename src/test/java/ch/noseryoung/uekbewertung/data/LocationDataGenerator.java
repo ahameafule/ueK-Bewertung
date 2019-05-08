@@ -6,11 +6,15 @@ package ch.noseryoung.uekbewertung.data;
 import ch.noseryoung.uekbewertung.webContext.domain.location.Location;
 
 /**
+ * This class puts data in the entity Location
  * @author lohse
  *
  */
 public class LocationDataGenerator implements DataGenerator<Location> {
 
+/*
+ * Generates testdata in the entity Location
+ */
 	@Override
 	public DataHolder<Location> generate() {
 		

@@ -13,19 +13,29 @@ import ch.noseryoung.uekbewertung.webContext.domain.role.Role;
 import ch.noseryoung.uekbewertung.webContext.domain.user.User;
 
 /**
+ * This class collects generators from all entities
  * @author lohse
  *
  */
 public class DataGenerators {
 
+	/**
+	 * 
+	 * @param clazz
+	 * @return
+	 */
     public static <T> DataGenerator<T> forClass(Class<T> clazz) {
         return new DataGenerators().build(clazz);
     }
 
+    /**
+     * 
+     * @param clazz
+     * @return DataGenerator<T> gen
+     */
     public <T> DataGenerator<T> build(Class<T> clazz) {
         DataGenerator<?> gen;
 
-        
         if (User.class.isAssignableFrom(clazz)) {
             gen = userGen();
         } else if(Role.class.isAssignableFrom(clazz)) {
@@ -48,42 +58,68 @@ public class DataGenerators {
 
         return (DataGenerator<T>) gen;
     }
-
+/**
+ * 
+ * @return UserDataGenerator
+ */
     private UserDataGenerator userGen() {
     	
     	return new UserDataGenerator();
     }
     
+/**
+ * 
+ * @return RoleDataGenerator
+ */
     private RoleDataGenerator roleGen() {
     	
     	return new RoleDataGenerator();
     }
     
+	 /**
+	  * 
+	  * @return RatingDataGenerator + method userGen
+	  */
     private RatingDataGenerator ratingGen() {
     	
     	return new RatingDataGenerator(userGen());
     }
-    
+    /**
+     * 
+     * @return QuestionDataGenerator
+     */
     private QuestionDataGenerator questionGen() {
     	
     	return new QuestionDataGenerator();
     }
-    
+    /**
+     * 
+     * @return LocationDataGenerator
+     */
     private LocationDataGenerator locationGen() {
     	
     	return new LocationDataGenerator();
     }
-    
+    /**
+     * 
+     * @return CourseDataGenerator + method locationGen + method userGen
+     */
     private CourseDataGenerator courseGen() {
     	
     	return new CourseDataGenerator(locationGen(), userGen());
     }
-    
+    /**
+     * 
+     * @return AuthorityDataGenerator
+     */
     private AuthorityDataGenerator authorityGen() {
     	
     	return new AuthorityDataGenerator();
     }
-    
+    /**
+     * 
+     * @return AnswerDataGenerator + method ratingGen + questionGen
+     */
     private AnswerDataGenerator answerGen() {
     	
     	return new AnswerDataGenerator(ratingGen(), questionGen());

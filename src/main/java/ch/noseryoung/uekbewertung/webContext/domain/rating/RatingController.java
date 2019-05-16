@@ -61,7 +61,6 @@ private RatingService ratingService;
 					required = true
 			) }
 		)
-	@PreAuthorize("hasAuthority('MANAGE')")
 	@GetMapping("/{id}")
 	public ResponseEntity<Rating> getById(@PathVariable Long id) {
 		Optional<Rating> rating = ratingService.findById(id);
@@ -86,7 +85,7 @@ private RatingService ratingService;
 					required = true
 			) }
 		)
-	@GetMapping("/{uuid}")
+	@GetMapping("/uuid/{uuid}")
 	public ResponseEntity<Rating> getByUuid(@PathVariable String uuid) {
 		Optional<Rating> rating = ratingService.findByUUID(uuid);
 		

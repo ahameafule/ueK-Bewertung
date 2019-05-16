@@ -23,4 +23,6 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
 	
 	List<Answer> findByRating(Rating rating);
 	
+	List<Answer> findAnswerByRating_uuid(String uuid);
+	
 }

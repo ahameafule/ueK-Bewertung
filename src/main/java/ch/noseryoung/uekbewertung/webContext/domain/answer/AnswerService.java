@@ -39,6 +39,11 @@ public class AnswerService {
 		List<Answer> answer = answerRepository.findByRating(rating);
 		return answer;
 	}
+	
+	public List<Answer> findByUUID(String uuid) {
+		List<Answer> answer = answerRepository.findAnswerByRating_uuid(uuid);
+		return answer;
+	}
 
 	public List<Answer> findAll() {
 		List<Answer> authorities = answerRepository.findAll();
@@ -47,6 +52,10 @@ public class AnswerService {
 
 	public void save(Answer answer) {
 		answerRepository.save(answer);
+	}
+	
+	public void saveAll(List<Answer> answers) {
+		answerRepository.saveAll(answers);
 	}
 
 	public void update(Answer newAnswer) throws NoSuchElementException {

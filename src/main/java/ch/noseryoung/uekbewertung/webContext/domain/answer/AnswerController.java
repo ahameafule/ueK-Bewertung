@@ -71,9 +71,24 @@ public class AnswerController {
 		return new ResponseEntity<>(answer.get(), status);
 	}
 	
-	@GetMapping("/getByRating")
-	public ResponseEntity<List<Answer>> getByRating(@Valid @RequestBody Rating rating) {
-		List<Answer> answers = answerService.findByRating(rating);
+	/**
+	 * 
+	 * @param rating Rating of the requested answers
+	 * @return ResponseEntity with the answers from that rating
+	 */
+	@ApiOperation(
+			value = "This endpoint returns the requested answers",
+			response = Answer.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+					value = "uuid of rating of requested answer",
+					required = true
+			) }
+		)
+	@GetMapping("/uuid/{uuid}")
+	public ResponseEntity<List<Answer>> getByUUID(@PathVariable String uuid) {
+		List<Answer> answers = answerService.findByUUID(uuid);
 
 		return new ResponseEntity<>(answers, HttpStatus.OK);
 	}
@@ -95,8 +110,13 @@ public class AnswerController {
 		return new ResponseEntity<>(authorities, HttpStatus.OK);
 	}
 
+	/**
+	 * This method creates a answer
+	 *
+	 * @return ResponseEntity with the answer that was created
+	 */
 	@ApiOperation(
-			value = "This endpoint creates a answer",
+			value = "This endpoint creates an answer",
 			response = Answer.class 
 		)
 		@ApiImplicitParams(
@@ -105,19 +125,51 @@ public class AnswerController {
 				required = true
 			) }
 		)
-
-	/**
-	 * This method creates a answer
-	 *
-	 * @return ResponseEntity with the answer that was created
-	 */
-	@PostMapping({ "", "/" })
+	@PostMapping("/single")
 	public ResponseEntity<Answer> create(@Valid @RequestBody Answer answer) {
 		answerService.save(answer);
 
 		return new ResponseEntity<>(answer, HttpStatus.CREATED);
 	}
+	
+	/**
+	 * This method creates a answer
+	 *
+	 * @return ResponseEntity with the answer that was created
+	 */
+	@ApiOperation(
+			value = "This endpoint creates an answer",
+			response = Answer.class 
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+				value = "The answer to be created",
+				required = true
+			) }
+		)
+	@PostMapping({ "", "/" })
+	public ResponseEntity<List> createAll(@Valid @RequestBody List<Answer> answers) {
+		answerService.saveAll(answers);
 
+		return new ResponseEntity<>(answers, HttpStatus.CREATED);
+	}
+
+	/**
+	 * This endpoint updates an answer
+	 * 
+	 * @param answer the updated answer
+	 * @return ResponseEntity with the updated answer
+	 */
+	@ApiOperation(
+			value = "This endpoint updates an answer",
+			response = Answer.class 
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+				value = "The answer to be created",
+				required = true
+			) }
+		)
 	@PutMapping({ "", "/" })
 	public ResponseEntity<Answer> update(@Valid @RequestBody Answer answer) {
 		answerService.update(answer);

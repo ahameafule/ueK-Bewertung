@@ -44,6 +44,11 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
+		
+		res.addHeader("Access-Control-Allow-Origin", "*");
+		res.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+		res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, authorization");
+		
 		// read header
 		String header = req.getHeader(properties.getProperty("jwt.header-string"));
 

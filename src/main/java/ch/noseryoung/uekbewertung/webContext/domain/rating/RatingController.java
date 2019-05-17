@@ -202,7 +202,7 @@ private RatingService ratingService;
 				required = true
 				) }
 		)
-	@PutMapping("/{uuid}")
+	@PutMapping("/uuid/{uuid}")
 	public ResponseEntity<Rating> updateByUUID(@PathVariable String uuid, @Valid @RequestBody Rating rating) {
 		ratingService.updateByUUID(rating, uuid);
 

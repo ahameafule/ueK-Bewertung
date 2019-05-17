@@ -89,9 +89,15 @@ private RatingService ratingService;
 	public ResponseEntity<Rating> getByUuid(@PathVariable String uuid) {
 		Optional<Rating> rating = ratingService.findByUUID(uuid);
 		
-		HttpStatus status = (rating.isPresent() ? HttpStatus.OK : HttpStatus.NOT_FOUND);
-
-		return new ResponseEntity<>(rating.get(), status);
+		HttpStatus status;
+		
+		if (rating.isPresent()) {
+			status = HttpStatus.OK;
+			return new ResponseEntity<>(rating.get(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(new Rating(), HttpStatus.NOT_FOUND);
+			
+		}
 	}
 	
 	@ApiOperation(

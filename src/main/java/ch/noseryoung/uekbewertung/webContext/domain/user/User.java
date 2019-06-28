@@ -46,6 +46,9 @@ public class User {
 	@Column(name = "password")
 	private String password;
 	
+	@Column(name = "jahrgang")
+	private String joinYear;
+	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 		name = "users_role",
@@ -76,16 +79,18 @@ public class User {
 	 * @param lastName
 	 * @param email
 	 * @param creationdate
+	 * @param join_year
 	 * @param roles
 	 */
 	public User(
-			String firstName, String lastName, Date creationdate, Set<Role> roles, String password
+			String firstName, String lastName, Date creationdate, Set<Role> roles, String password, String joinYear
 	) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.creationdate = creationdate; 
 		this.roles = roles;
 		this.password = password;
+		this.joinYear = joinYear;
 	}
 
 	/**
@@ -206,6 +211,20 @@ public class User {
 	 */
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	/**
+	 * @return the join_year
+	 */
+	public String getJoin_year() {
+		return joinYear;
+	}
+
+	/**
+	 * @param join_year the join_year to set
+	 */
+	public void setJoin_year(String join_year) {
+		this.joinYear = join_year;
 	}
 	
 	

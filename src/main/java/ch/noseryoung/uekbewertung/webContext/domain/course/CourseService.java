@@ -43,7 +43,7 @@ public class CourseService {
 	 */
 
 	public List<Course> findAll() {
-		List<Course> courses = courseRepository.findAll();
+		List<Course> courses = courseRepository.findAllByOrderByCourseNumber();
 		return courses;
 	}
 	

@@ -61,7 +61,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 				.antMatchers("/login", "/ratings", "/answers", "/questions", "/v2/api-docs", 
 							 "/swagger-resources/**", "/swagger-ui.html", "/webjars/**")
 				.permitAll()
-			.antMatchers("/users", "/roles", "/authorities", "/courses", "/locations").authenticated().and()
+			.antMatchers("/users", "/roles", "/authorities", "/courses", "/locations").permitAll().and()
 			.addFilterAfter(
 					authenticationFilter,
 					UsernamePasswordAuthenticationFilter.class)

@@ -63,10 +63,23 @@ public class RatingService {
 	 * @return
 	 */
 	public List<Rating> findAll() {
-		List<Rating> authorities = ratingRepository.findAll();
-		return authorities;
+		List<Rating> ratings = ratingRepository.findAll();
+		return ratings;
+	}
+	
+	/**
+	 * find all ratings ordered
+	 * @return
+	 */
+	public List<Rating> findAllOrdered() {
+		List<Rating> ratings = ratingRepository.findAllByOrderByCourseCourseNumberAscCourseCourseLeadAsc();
+		return ratings;
 	}
 
+	/**
+	 * saves the rating
+	 * @param rating
+	 */
 	public void save(Rating rating) {
 		List<Rating> currentRating = ratingRepository.findByCourseAndUser(rating.getCourse(), rating.getUser());
 	
@@ -75,7 +88,8 @@ public class RatingService {
 				rating.setUUID(UUIDGenerator.generateUUID());
 				ratingRepository.save(rating);
 				if (rating.getUser().getEmail() != null) {
-					mailSender.sendEmail(rating.getUser().getEmail());
+					System.out.println("SENDING MAIL");
+					mailSender.sendEmail(rating.getUser().getEmail(), rating.getUUID());
 				}
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
@@ -91,6 +105,34 @@ public class RatingService {
 		} else {
 			throw new IllegalArgumentException("This rating already exists");
 		}
+	}
+	
+	/**
+	 * 
+	 * @param rating
+	 */
+	public void saveAll(List<Rating> ratings) {
+		for (Rating rating : ratings) {	
+			try {
+				rating.setUUID(UUIDGenerator.generateUUID());
+				System.out.println(rating.getUUID());
+				//ratingRepository.save(rating);
+				if (rating.getUser().getEmail() != null) {
+					mailSender.sendEmail(rating.getUser().getEmail(), rating.getUUID());
+				}
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (AddressException e) {
+				e.printStackTrace();
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}			
+		}
+		ratingRepository.saveAll(ratings);
 	}
 
 	/**

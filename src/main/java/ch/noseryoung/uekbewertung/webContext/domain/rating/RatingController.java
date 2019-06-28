@@ -136,6 +136,22 @@ private RatingService ratingService;
 
 		return new ResponseEntity<>(ratings, HttpStatus.OK);
 	}
+	
+	/**
+	 * This method returns all ratings
+	 * 
+	 * @return
+	 */
+	@ApiOperation(
+			value = "This endpoint returns all ratings",
+			response = Rating.class
+		)
+	@PreAuthorize("hasAuthority('MANAGE')")
+	@GetMapping({ "/ordered" })
+	public ResponseEntity<List<Rating>> getAllOrdered() {
+		List<Rating> ratings = ratingService.findAllOrdered();
+		return new ResponseEntity<>(ratings, HttpStatus.OK);
+	}
 
 	/**
 	 * This method creates a rating
@@ -157,6 +173,30 @@ private RatingService ratingService;
 	@PostMapping({ "", "/" })
 	public ResponseEntity<Rating> create(@Valid @RequestBody Rating rating) {
 		ratingService.save(rating);
+
+		return new ResponseEntity<>(rating, HttpStatus.CREATED);
+	}
+	
+	/**
+	 * This method creates a multiple ratings
+	 * 
+	 * @return  ResponseEntity with the rating that was created
+	 * 
+	 */
+	@ApiOperation(
+			value = "This endpoint creates a rating",
+			response = Rating.class 
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+				value = "The rating to be created",
+				required = true
+			) }
+		)
+	@PreAuthorize("hasAuthority('MANAGE')")
+	@PostMapping({ "/bulk", })
+	public ResponseEntity<List<Rating>> createAll(@Valid @RequestBody List<Rating> rating) {
+		ratingService.saveAll(rating);
 
 		return new ResponseEntity<>(rating, HttpStatus.CREATED);
 	}

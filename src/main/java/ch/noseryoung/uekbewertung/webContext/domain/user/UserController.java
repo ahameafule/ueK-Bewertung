@@ -82,7 +82,7 @@ private UserService userService;
 	@PreAuthorize("hasAuthority('MANAGE')")
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<User>> getAll() {
-		List<User> authorities = userService.findAll();
+		List<User> authorities = userService.findAllByOrderByJoinYear();
 
 		return new ResponseEntity<>(authorities, HttpStatus.OK);
 	}

@@ -68,6 +68,11 @@ public class UserService implements UserDetailsService {
 		List<User> users = userRepository.findAll();
 		return users;
 	}
+	
+	public List<User> findAllByOrderByJoinYear() {
+		List<User> users = userRepository.findAllByOrderByJoinYearDesc();
+		return users;
+	}
 
 	/**
 	 * tells the repository where to create a user

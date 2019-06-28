@@ -33,6 +33,9 @@ dependencies {
 	
 	//apt 'org.mapstruct:mapstruct-processor:1.2.0.Final'
 	
+	//AssertJ
+	testCompile("org.assertj:assertj-core:3.12.2")
+	
 	//SMTP
 	compile('org.springframework.boot:spring-boot-starter-mail')
 	

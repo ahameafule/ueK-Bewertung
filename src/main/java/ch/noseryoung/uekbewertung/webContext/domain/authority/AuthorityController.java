@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,6 +62,7 @@ public class AuthorityController {
 					required = true
 			) }
 		)
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@GetMapping("/{id}")
 	public ResponseEntity<Authority> getById(@PathVariable Long id) {
 		Optional<Authority> authority = authorityService.findById(id);
@@ -79,6 +81,7 @@ public class AuthorityController {
 			value = "This endpoint returns all authorities",
 			response = Authority.class
 		)
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<Authority>> getAll() {
 		List<Authority> authorities = authorityService.findAll();
@@ -101,6 +104,7 @@ public class AuthorityController {
 				required = true
 			) }
 		)
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@PostMapping({ "", "/" })
 	public ResponseEntity<Authority> create(@Valid @RequestBody Authority authority) {
 		authorityService.save(authority);
@@ -125,6 +129,7 @@ public class AuthorityController {
 				required = true
 				) }
 		)
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@PutMapping("/{id}")
 	public ResponseEntity<Authority> updateById(@PathVariable Long id, @Valid @RequestBody Authority authority) {
 		authorityService.update(authority, id);
@@ -148,6 +153,7 @@ public class AuthorityController {
 					required = true
 			) }
 		)
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		authorityService.deleteById(id);

@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MailSender {
 
 	@RequestMapping(value = "/sendemail")
-	public String sendEmail(String mailto) throws AddressException, MessagingException, IOException {
-		sendmail(mailto);
+	public String sendEmail(String mailto, String UUID) throws AddressException, MessagingException, IOException {
+		sendmail(mailto, UUID);
 		return "Email sent successfully";
 	}
 	
@@ -42,13 +42,14 @@ public class MailSender {
 	 * @throws MessagingException
 	 * @throws IOException
 	 */
-	private void sendmail(String mailto) throws AddressException, MessagingException, IOException {
+	private void sendmail(String mailto, String UUID) throws AddressException, MessagingException, IOException {
 		
 		//Puts all needed properties
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 		props.put("mail.smtp.port", "587");
 		
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
@@ -73,7 +74,7 @@ public class MailSender {
 		
 		MimeBodyPart messageBodyPart = new MimeBodyPart();
 		//Message input
-		messageBodyPart.setContent("Deine üK-Bewertung wurde erstellt", "text/html");
+		messageBodyPart.setContent("Deine üK-Bewertung wurde erstellt. \n Deine UUID ist: " + UUID, "text/html");
 		
 		Multipart multipart = new MimeMultipart();
 		multipart.addBodyPart(messageBodyPart);

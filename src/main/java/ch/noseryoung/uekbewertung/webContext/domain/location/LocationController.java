@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,6 +62,7 @@ public class LocationController {
 					required = true
 			) }
 		)
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@GetMapping("/{id}")
 	public ResponseEntity<Location> getById(@PathVariable Long id) {
 		Optional<Location> location = locationService.findById(id);
@@ -81,6 +83,7 @@ public class LocationController {
 			value = "This endpoint returns all locations",
 			response = Location.class
 		)
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<Location>> getAll() {
 		List<Location> locations = locationService.findAll();
@@ -102,6 +105,7 @@ public class LocationController {
 				required = true
 			) }
 		)
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@PostMapping({ "", "/" })
 	public ResponseEntity<Location> create(@Valid @RequestBody Location location) {
 		locationService.save(location);
@@ -125,6 +129,7 @@ public class LocationController {
 				required = true
 				) }
 		)
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@PutMapping("/{id}")
 	public ResponseEntity<Location> updatedById(@PathVariable Long id, @Valid @RequestBody Location location) {
 		locationService.update(location, id);
@@ -147,6 +152,7 @@ public class LocationController {
 					required = true
 			) }
 		)
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		locationService.deleteById(id);

@@ -68,12 +68,18 @@ public class UserService implements UserDetailsService {
 		List<User> users = userRepository.findAll();
 		return users;
 	}
+	
+	public List<User> findAllByOrderByJoinYear() {
+		List<User> users = userRepository.findAllByOrderByJoinYearDesc();
+		return users;
+	}
 
 	/**
 	 * tells the repository where to create a user
 	 * @param User
 	 */
 	public void save(User user) {
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		user.setCreationdate(new Date());
 		userRepository.save(user);
 	}
@@ -132,7 +138,7 @@ public class UserService implements UserDetailsService {
 			}
 			
 			if(!isTrainer) {
-				if(user.getCreationdate().before(dateToCheck)) {
+				if(user.getCreationdate() != null && user.getCreationdate().before(dateToCheck)) {
 					userRepository.delete(user);
 				}
 			}

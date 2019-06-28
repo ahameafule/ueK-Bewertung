@@ -61,7 +61,6 @@ private RatingService ratingService;
 					required = true
 			) }
 		)
-	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/{id}")
 	public ResponseEntity<Rating> getById(@PathVariable Long id) {
 		Optional<Rating> rating = ratingService.findById(id);
@@ -76,15 +75,41 @@ private RatingService ratingService;
 	 * @param uuid
 	 * @return
 	 */
-	@GetMapping("/{uuid}")
+	@ApiOperation(
+			value = "This endpoint returns the requested rating",
+			response = Rating.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+					value = "UUID of requested rating",
+					required = true
+			) }
+		)
+	@GetMapping("/uuid/{uuid}")
 	public ResponseEntity<Rating> getByUuid(@PathVariable String uuid) {
 		Optional<Rating> rating = ratingService.findByUUID(uuid);
 		
-		HttpStatus status = (rating.isPresent() ? HttpStatus.OK : HttpStatus.NOT_FOUND);
-
-		return new ResponseEntity<>(rating.get(), status);
+		HttpStatus status;
+		
+		if (rating.isPresent()) {
+			status = HttpStatus.OK;
+			return new ResponseEntity<>(rating.get(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(new Rating(), HttpStatus.NOT_FOUND);
+			
+		}
 	}
 	
+	@ApiOperation(
+			value = "This endpoint returns the requested rating",
+			response = Rating.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+					value = "The user whose rating should be returned",
+					required = true
+			) }
+		)
 	@GetMapping("/getByUser")
 	public ResponseEntity<Rating> getByUser(@Valid @RequestBody User user) {
 		Optional<Rating> rating = ratingService.findByUser(user);
@@ -104,11 +129,27 @@ private RatingService ratingService;
 			value = "This endpoint returns all ratings",
 			response = Rating.class
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<Rating>> getAll() {
 		List<Rating> ratings = ratingService.findAll();
 
+		return new ResponseEntity<>(ratings, HttpStatus.OK);
+	}
+	
+	/**
+	 * This method returns all ratings
+	 * 
+	 * @return
+	 */
+	@ApiOperation(
+			value = "This endpoint returns all ratings",
+			response = Rating.class
+		)
+	@PreAuthorize("hasAuthority('MANAGE')")
+	@GetMapping({ "/ordered" })
+	public ResponseEntity<List<Rating>> getAllOrdered() {
+		List<Rating> ratings = ratingService.findAllOrdered();
 		return new ResponseEntity<>(ratings, HttpStatus.OK);
 	}
 
@@ -128,10 +169,34 @@ private RatingService ratingService;
 				required = true
 			) }
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@PostMapping({ "", "/" })
 	public ResponseEntity<Rating> create(@Valid @RequestBody Rating rating) {
 		ratingService.save(rating);
+
+		return new ResponseEntity<>(rating, HttpStatus.CREATED);
+	}
+	
+	/**
+	 * This method creates a multiple ratings
+	 * 
+	 * @return  ResponseEntity with the rating that was created
+	 * 
+	 */
+	@ApiOperation(
+			value = "This endpoint creates a rating",
+			response = Rating.class 
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+				value = "The rating to be created",
+				required = true
+			) }
+		)
+	@PreAuthorize("hasAuthority('MANAGE')")
+	@PostMapping({ "/bulk", })
+	public ResponseEntity<List<Rating>> createAll(@Valid @RequestBody List<Rating> rating) {
+		ratingService.saveAll(rating);
 
 		return new ResponseEntity<>(rating, HttpStatus.CREATED);
 	}
@@ -167,7 +232,17 @@ private RatingService ratingService;
 	 * @param rating Rating entity to which the requested course should get updated to
 	 * @return ResponseEntity with the updated rating
 	 */
-	@PutMapping("/{uuid}")
+	@ApiOperation(
+			value = "This endpoint updates the requested rating",
+			response = Rating.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+				value = "The logged in rating",
+				required = true
+				) }
+		)
+	@PutMapping("/uuid/{uuid}")
 	public ResponseEntity<Rating> updateByUUID(@PathVariable String uuid, @Valid @RequestBody Rating rating) {
 		ratingService.updateByUUID(rating, uuid);
 
@@ -190,7 +265,7 @@ private RatingService ratingService;
 					required = true
 			) }
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		ratingService.deleteById(id);

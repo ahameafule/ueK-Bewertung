@@ -23,6 +23,8 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
 	
 	List<Rating> findByCourseAndUser(Course course, User user);
 	
+	List<Rating> findAllByOrderByCourseCourseNumberAscCourseCourseLeadAsc();
+	
 	Optional<Rating> findByuuid(String uuid);
 	
 	Optional<Rating> findByUser(User user);

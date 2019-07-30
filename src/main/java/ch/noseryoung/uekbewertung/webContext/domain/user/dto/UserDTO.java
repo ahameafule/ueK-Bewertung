@@ -4,6 +4,7 @@
 package ch.noseryoung.uekbewertung.webContext.domain.user.dto;
 
 import java.util.Date;
+import java.util.Set;
 
 import ch.noseryoung.uekbewertung.webContext.domain.role.dto.RoleDTO;
 
@@ -15,25 +16,28 @@ public class UserDTO {
 
 	private Long id;
 	
-	private String firstname;
+	private String firstName;
 	
-	private String lastname;
+	private String lastName;
 	
 	private Date creationdate;
 	
 	private String email;
 	
-	private RoleDTO role;
+	private String joinYear;
+	
+	private Set<RoleDTO> roles;
 	
 	public UserDTO() {}
 	
-	public UserDTO(Long id, String firstname, String lastname, Date creationdate, String email, RoleDTO role) {
+	public UserDTO(Long id, String firstName, String lastName, Date creationdate, String email, String joinYear, Set<RoleDTO> roles) {
 		this.id = id;
-		this.firstname = firstname;
-		this.lastname = lastname;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.creationdate = creationdate;
 		this.email = email;
-		this.role = role;
+		this.joinYear = joinYear;
+		this.roles = roles;
 	}
 
 	/**
@@ -51,31 +55,31 @@ public class UserDTO {
 	}
 
 	/**
-	 * @return the firstname
+	 * @return the firstName
 	 */
-	public String getFirstname() {
-		return firstname;
+	public String getFirstName() {
+		return firstName;
 	}
 
 	/**
-	 * @param firstname the firstname to set
+	 * @param firstName the firstName to set
 	 */
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	/**
-	 * @return the lastname
+	 * @return the lastName
 	 */
-	public String getLastname() {
-		return lastname;
+	public String getLastName() {
+		return lastName;
 	}
 
 	/**
-	 * @param lastname the lastname to set
+	 * @param lastName the lastName to set
 	 */
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	/**
@@ -107,16 +111,39 @@ public class UserDTO {
 	}
 
 	/**
+	 * @return the joinYear
+	 */
+	public String getJoinYear() {
+		return joinYear;
+	}
+
+	/**
+	 * @param joinYear the joinYear to set
+	 */
+	public void setJoinYear(String joinYear) {
+		this.joinYear = joinYear;
+	}
+
+	/**
 	 * @return the role
 	 */
-	public RoleDTO getRole() {
-		return role;
+	public Set<RoleDTO> getRoles() {
+		return roles;
 	}
 
 	/**
 	 * @param role the role to set
 	 */
-	public void setRole(RoleDTO role) {
-		this.role = role;
+	public void setRoles(Set<RoleDTO> roles) {
+		this.roles = roles;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "UserDTO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", creationdate="
+				+ creationdate + ", email=" + email + ", role=" + roles + "]";
 	}
 }

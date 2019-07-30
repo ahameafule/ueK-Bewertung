@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import ch.noseryoung.uekbewertung.webContext.domain.role.Role;
+import ch.noseryoung.uekbewertung.webContext.domain.role.dto.RoleDTO;
 
 /**
  * This class is the Entity User. A User can hold multiple roles with its own
@@ -91,6 +92,15 @@ public class User {
 		this.roles = roles;
 		this.password = password;
 		this.joinYear = joinYear;
+	}
+	
+	public User(Long id, String firstName, String lastName, Date creationdate, String email, Set<Role> roles) {
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.creationdate = creationdate;
+		this.email = email;
+		this.roles = roles;
 	}
 
 	/**
@@ -216,16 +226,15 @@ public class User {
 	/**
 	 * @return the join_year
 	 */
-	public String getJoin_year() {
+	public String getJoinYear() {
 		return joinYear;
 	}
 
 	/**
 	 * @param join_year the join_year to set
 	 */
-	public void setJoin_year(String join_year) {
-		this.joinYear = join_year;
-	}
-	
+	public void setJoinYear(String joinYear) {
+		this.joinYear = joinYear;
+	}	
 	
 }

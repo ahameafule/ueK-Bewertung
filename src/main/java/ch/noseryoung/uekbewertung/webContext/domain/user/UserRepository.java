@@ -1,9 +1,13 @@
 package ch.noseryoung.uekbewertung.webContext.domain.user;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import ch.noseryoung.uekbewertung.webContext.domain.role.Role;
 
 /**
  * This interface holds all data access related methods targeted towards the
@@ -31,4 +35,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	void deleteByLastName(String name);
 	
 	List<User> findAllByOrderByJoinYearDesc();
+	
+	List<User> findAllByRoles(Set<Role> roles);
 }

@@ -51,7 +51,7 @@ public class CourseRepositoryTest {
 		dataHolder = DataGenerators.forClass(Course.class).generate();
 		for(int i = 0; i < users.size(); i++) {
 			dataHolder.asList().get(i)
-				.setUser(new User(users.get(i).getId(), null, null, null , null));
+				.setCourseLead(new User(users.get(i).getId(), null, null, null , null));
 		}
 		
 		var locations = DataGenerators.forClass(Location.class).generate()

@@ -36,7 +36,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/users")
 @Api(
-		value = "AuthorityController"
+		value = "UserController"
 	)
 public class UserController {
 	
@@ -88,8 +88,6 @@ private UserMapper userMapper;
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<UserDTO>> getAll() {
 		List<User> users = userService.findAllByOrderByJoinYear();
-		System.out.println(users);
-		System.out.println(userMapper.usersToUserDTOs(users));
 		return new ResponseEntity<>(userMapper.usersToUserDTOs(users), HttpStatus.OK);
 	}
 	

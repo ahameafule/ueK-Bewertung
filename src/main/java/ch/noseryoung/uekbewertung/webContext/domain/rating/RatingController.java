@@ -110,7 +110,7 @@ private RatingService ratingService;
 					required = true
 			) }
 		)
-	@GetMapping("/getByUser")
+	@GetMapping("/user")
 	public ResponseEntity<Rating> getByUser(@Valid @RequestBody User user) {
 		Optional<Rating> rating = ratingService.findByUser(user);
 		
@@ -172,9 +172,12 @@ private RatingService ratingService;
 	@PreAuthorize("hasAuthority('MANAGE')")
 	@PostMapping({ "", "/" })
 	public ResponseEntity<Rating> create(@Valid @RequestBody Rating rating) {
-		ratingService.save(rating);
-
-		return new ResponseEntity<>(rating, HttpStatus.CREATED);
+		if(ratingService.save(rating)) {
+			return new ResponseEntity<>(rating, HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+		}
+		
 	}
 	
 	/**

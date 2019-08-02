@@ -30,8 +30,6 @@ public class UserService implements UserDetailsService {
 	private UserRepository userRepository;
 
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
-
 
 	/**
 	 * @param userRepository
@@ -83,14 +81,14 @@ public class UserService implements UserDetailsService {
 	public List<User> findAllApprentices() {
 		Set<Role> roles = new HashSet<Role>();
 		roles.add(new Role(2L, "USER"));
-		List<User> users = userRepository.findAllByRoles(roles);
+		List<User> users = userRepository.findByRolesOrderByJoinYearDescFirstNameAsc(roles);
 		return users;
 	}
 	
 	public List<User> findAllCourseLeaders() {
 		Set<Role> roles = new HashSet<Role>();
 		roles.add(new Role(1L, "ADMIN"));
-		List<User> users = userRepository.findAllByRoles(roles);
+		List<User> users = userRepository.findByRolesOrderByJoinYearDescFirstNameAsc(roles);
 		return users;
 	}
 

@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ch.noseryoung.uekbewertung.webContext.domain.question.Question;
 import ch.noseryoung.uekbewertung.webContext.domain.rating.Rating;
 
 /**

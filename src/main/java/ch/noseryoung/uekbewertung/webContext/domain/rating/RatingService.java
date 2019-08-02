@@ -80,17 +80,17 @@ public class RatingService {
 	 * saves the rating
 	 * @param rating
 	 */
-	public void save(Rating rating) {
+	public boolean save(Rating rating) {
 		List<Rating> currentRating = ratingRepository.findByCourseAndUser(rating.getCourse(), rating.getUser());
 	
 		if (currentRating.isEmpty()) {
 			try {
 				rating.setUUID(UUIDGenerator.generateUUID());
 				ratingRepository.save(rating);
-				if (rating.getUser().getEmail() != null) {
-					System.out.println("SENDING MAIL");
+				if (rating.getUser().getEmail() != null && !("undefined").equals(rating.getUser().getEmail())) {
 					mailSender.sendEmail(rating.getUser().getEmail(), rating.getUUID());
 				}
+				return true;
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			} catch (UnsupportedEncodingException e) {
@@ -102,9 +102,8 @@ public class RatingService {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}			
-		} else {
-			throw new IllegalArgumentException("This rating already exists");
 		}
+		return false;
 	}
 	
 	/**
@@ -115,8 +114,6 @@ public class RatingService {
 		for (Rating rating : ratings) {	
 			try {
 				rating.setUUID(UUIDGenerator.generateUUID());
-				System.out.println(rating.getUUID());
-				//ratingRepository.save(rating);
 				if (rating.getUser().getEmail() != null) {
 					mailSender.sendEmail(rating.getUser().getEmail(), rating.getUUID());
 				}

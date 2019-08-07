@@ -97,7 +97,9 @@ public class UserService implements UserDetailsService {
 	 * @param User
 	 */
 	public void save(User user) {
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		if (user.getPassword() != null) {
+			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		}
 		user.setCreationdate(new Date());
 		userRepository.save(user);
 	}

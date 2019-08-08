@@ -63,19 +63,59 @@ public class RatingService {
 	 * @return
 	 */
 	public List<Rating> findAll() {
-		List<Rating> authorities = ratingRepository.findAll();
-		return authorities;
+		List<Rating> ratings = ratingRepository.findAll();
+		return ratings;
+	}
+	
+	/**
+	 * find all ratings ordered
+	 * @return
+	 */
+	public List<Rating> findAllOrdered() {
+		List<Rating> ratings = ratingRepository.findAllByOrderByCourseCourseNumberAscCourseCourseLeadAsc();
+		return ratings;
 	}
 
-	public void save(Rating rating) {
+	/**
+	 * saves the rating
+	 * @param rating
+	 */
+	public boolean save(Rating rating) {
 		List<Rating> currentRating = ratingRepository.findByCourseAndUser(rating.getCourse(), rating.getUser());
 	
 		if (currentRating.isEmpty()) {
 			try {
 				rating.setUUID(UUIDGenerator.generateUUID());
 				ratingRepository.save(rating);
+				if (rating.getUser().getEmail() != null && !("undefined").equals(rating.getUser().getEmail())) {
+					mailSender.sendEmail(rating.getUser().getEmail(), rating.getUUID());
+				}
+				return true;
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (AddressException e) {
+				e.printStackTrace();
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}			
+		}
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @param rating
+	 */
+	public void saveAll(List<Rating> ratings) {
+		for (Rating rating : ratings) {	
+			try {
+				rating.setUUID(UUIDGenerator.generateUUID());
 				if (rating.getUser().getEmail() != null) {
-					mailSender.sendEmail(rating.getUser().getEmail());
+					mailSender.sendEmail(rating.getUser().getEmail(), rating.getUUID());
 				}
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
@@ -88,9 +128,8 @@ public class RatingService {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}			
-		} else {
-			throw new IllegalArgumentException("This rating already exists");
 		}
+		ratingRepository.saveAll(ratings);
 	}
 
 	/**

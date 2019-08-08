@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ch.noseryoung.uekbewertung.webContext.domain.user.User;
 import ch.noseryoung.uekbewertung.webContext.domain.user.UserService;
+import ch.noseryoung.uekbewertung.webContext.domain.user.dto.UserDTO;
+import ch.noseryoung.uekbewertung.webContext.domain.user.dto.UserMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -33,15 +36,17 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/users")
 @Api(
-		value = "AuthorityController"
+		value = "UserController"
 	)
 public class UserController {
 	
 private UserService userService;
+private UserMapper userMapper;
 	
 	@Autowired
-	public UserController(UserService service) {
+	public UserController(UserService service, UserMapper userMapper) {
 		this.userService = service;
+		this.userMapper = userMapper;
 	}
 
 	/**
@@ -60,7 +65,7 @@ private UserService userService;
 					required = true
 			) }
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@GetMapping("/{id}")
 	public ResponseEntity<User> getById(@PathVariable Long id) {
 		Optional<User> user = userService.findById(id);
@@ -79,12 +84,43 @@ private UserService userService;
 			value = "This endpoint returns all users",
 			response = User.class
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@GetMapping({ "", "/" })
-	public ResponseEntity<List<User>> getAll() {
-		List<User> authorities = userService.findAll();
-
-		return new ResponseEntity<>(authorities, HttpStatus.OK);
+	public ResponseEntity<List<UserDTO>> getAll() {
+		List<User> users = userService.findAllByOrderByJoinYear();
+		return new ResponseEntity<>(userMapper.usersToUserDTOs(users), HttpStatus.OK);
+	}
+	
+	/**
+	 * This method returns all apprentices
+	 * 
+	 * @return
+	 */
+	@ApiOperation(
+			value = "This endpoint returns all apprentices",
+			response = User.class
+		)
+	@PreAuthorize("hasAuthority('MANAGE')")
+	@GetMapping("/apprentices" )
+	public ResponseEntity<List<UserDTO>> getAllApprentices() {
+		List<User> users = userService.findAllApprentices();
+		return new ResponseEntity<>(userMapper.usersToUserDTOs(users), HttpStatus.OK);
+	}
+	
+	/**
+	 * This method returns all users
+	 * 
+	 * @return
+	 */
+	@ApiOperation(
+			value = "This endpoint returns all course leaders",
+			response = User.class
+		)
+	@PreAuthorize("hasAuthority('MANAGE')")
+	@GetMapping("/course-leaders" )
+	public ResponseEntity<List<UserDTO>> getAllCourseLeaders() {
+		List<User> users = userService.findAllCourseLeaders();
+		return new ResponseEntity<>(userMapper.usersToUserDTOs(users), HttpStatus.OK);
 	}
 
 	/**
@@ -103,7 +139,7 @@ private UserService userService;
 			) }
 		)
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@PostMapping({ "", "/" })
 	public ResponseEntity<User> create(@Valid @RequestBody User user) {
 		userService.save(user);
@@ -126,7 +162,7 @@ private UserService userService;
 				required = true
 			) }
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@PostMapping("/bulk")
 	public ResponseEntity<List<User>> create(@Valid @RequestBody List<User> users) {
 		userService.save(users);
@@ -151,7 +187,7 @@ private UserService userService;
 				required = true
 				) }
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@PutMapping("/{id}")
 	public ResponseEntity<User> updateById(@PathVariable Long id, @Valid @RequestBody User user) {
 		userService.update(user, id);
@@ -175,7 +211,7 @@ private UserService userService;
 					required = true
 			) }
 		)
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		userService.deleteById(id);

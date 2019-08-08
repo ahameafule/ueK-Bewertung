@@ -1,9 +1,11 @@
 package ch.noseryoung.uekbewertung.webContext.domain.user;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ch.noseryoung.uekbewertung.webContext.domain.role.Role;
+import ch.noseryoung.uekbewertung.webContext.domain.user.dto.UserDTO;
+import ch.noseryoung.uekbewertung.webContext.domain.user.dto.UserMapper;
 
 /**
  * This class implements all data access related methods targeted towards the
@@ -61,11 +65,30 @@ public class UserService implements UserDetailsService {
 	}
 
 	/**
-	 * tells the repository where to create a user
-	 * @param User
+	 * returns all Users
 	 */
 	public List<User> findAll() {
 		List<User> users = userRepository.findAll();
+		return users;
+	}
+	
+	
+	public List<User> findAllByOrderByJoinYear() {
+		List<User> users = userRepository.findAllByOrderByJoinYearDesc();
+		return users;
+	}
+	
+	public List<User> findAllApprentices() {
+		Set<Role> roles = new HashSet<Role>();
+		roles.add(new Role(2L, "USER"));
+		List<User> users = userRepository.findByRolesOrderByJoinYearDescFirstNameAsc(roles);
+		return users;
+	}
+	
+	public List<User> findAllCourseLeaders() {
+		Set<Role> roles = new HashSet<Role>();
+		roles.add(new Role(1L, "ADMIN"));
+		List<User> users = userRepository.findByRolesOrderByJoinYearDescFirstNameAsc(roles);
 		return users;
 	}
 
@@ -74,6 +97,9 @@ public class UserService implements UserDetailsService {
 	 * @param User
 	 */
 	public void save(User user) {
+		if (user.getPassword() != null) {
+			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		}
 		user.setCreationdate(new Date());
 		userRepository.save(user);
 	}
@@ -132,7 +158,7 @@ public class UserService implements UserDetailsService {
 			}
 			
 			if(!isTrainer) {
-				if(user.getCreationdate().before(dateToCheck)) {
+				if(user.getCreationdate() != null && user.getCreationdate().before(dateToCheck)) {
 					userRepository.delete(user);
 				}
 			}

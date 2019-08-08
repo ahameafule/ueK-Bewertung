@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import ch.noseryoung.uekbewertung.webContext.domain.user.UserService;
 
 /**
- * This class is responsible for deleting users after one year
+ * This class is responsible for deleting users after two years
  * @author lohse
  *
  */

@@ -19,7 +19,7 @@ import ch.noseryoung.uekbewertung.webContext.domain.course.Course;
 import ch.noseryoung.uekbewertung.webContext.domain.user.User;
 
 /**
- * This class is the entity authority.
+ * This class is the entity rating.
  * 
  * @author Joel Ahameafule
  *

@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,6 +61,7 @@ public class AnswerController {
 					required = true
 			) }
 		)
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@GetMapping("/{id}")
 	public ResponseEntity<Answer> getById(@PathVariable Long id) {
 		Optional<Answer> answer = answerService.findById(id);
@@ -69,11 +71,26 @@ public class AnswerController {
 		return new ResponseEntity<>(answer.get(), status);
 	}
 	
-	@GetMapping("/getByRating")
-	public ResponseEntity<List<Answer>> getByRating(@Valid @RequestBody Rating rating) {
-		List<Answer> authorities = answerService.findAll();
+	/**
+	 * 
+	 * @param rating Rating of the requested answers
+	 * @return ResponseEntity with the answers from that rating
+	 */
+	@ApiOperation(
+			value = "This endpoint returns the requested answers",
+			response = Answer.class
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+					value = "uuid of rating of requested answer",
+					required = true
+			) }
+		)
+	@GetMapping("/uuid/{uuid}")
+	public ResponseEntity<List<Answer>> getByUUID(@PathVariable String uuid) {
+		List<Answer> answers = answerService.findByUUID(uuid);
 
-		return new ResponseEntity<>(authorities, HttpStatus.OK);
+		return new ResponseEntity<>(answers, HttpStatus.OK);
 	}
 
 	/**
@@ -85,6 +102,7 @@ public class AnswerController {
 			value = "This endpoint returns all answers",
 			response = Answer.class
 		)
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@GetMapping({ "", "/" })
 	public ResponseEntity<List<Answer>> getAll() {
 		List<Answer> authorities = answerService.findAll();
@@ -92,8 +110,13 @@ public class AnswerController {
 		return new ResponseEntity<>(authorities, HttpStatus.OK);
 	}
 
+	/**
+	 * This method creates a answer
+	 *
+	 * @return ResponseEntity with the answer that was created
+	 */
 	@ApiOperation(
-			value = "This endpoint creates a answer",
+			value = "This endpoint creates an answer",
 			response = Answer.class 
 		)
 		@ApiImplicitParams(
@@ -102,19 +125,51 @@ public class AnswerController {
 				required = true
 			) }
 		)
-
-	/**
-	 * This method creates a answer
-	 *
-	 * @return ResponseEntity with the answer that was created
-	 */
-	@PostMapping({ "", "/" })
+	@PostMapping("/single")
 	public ResponseEntity<Answer> create(@Valid @RequestBody Answer answer) {
 		answerService.save(answer);
 
 		return new ResponseEntity<>(answer, HttpStatus.CREATED);
 	}
+	
+	/**
+	 * This method creates a answer
+	 *
+	 * @return ResponseEntity with the answer that was created
+	 */
+	@ApiOperation(
+			value = "This endpoint creates an answer",
+			response = Answer.class 
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+				value = "The answer to be created",
+				required = true
+			) }
+		)
+	@PostMapping({ "", "/" })
+	public ResponseEntity<List> createAll(@Valid @RequestBody List<Answer> answers) {
+		answerService.saveAll(answers);
 
+		return new ResponseEntity<>(answers, HttpStatus.CREATED);
+	}
+
+	/**
+	 * This endpoint updates an answer
+	 * 
+	 * @param answer the updated answer
+	 * @return ResponseEntity with the updated answer
+	 */
+	@ApiOperation(
+			value = "This endpoint updates an answer",
+			response = Answer.class 
+		)
+		@ApiImplicitParams(
+			{ @ApiImplicitParam(
+				value = "The answer to be created",
+				required = true
+			) }
+		)
 	@PutMapping({ "", "/" })
 	public ResponseEntity<Answer> update(@Valid @RequestBody Answer answer) {
 		answerService.update(answer);
@@ -138,6 +193,7 @@ public class AnswerController {
 					required = true
 			) }
 		)
+	@PreAuthorize("hasAuthority('MANAGE')")
 	@DeleteMapping({"", "/"})
 	public ResponseEntity<Void> delete(@Valid @RequestBody Answer answer) {
 		answerService.delete(answer);

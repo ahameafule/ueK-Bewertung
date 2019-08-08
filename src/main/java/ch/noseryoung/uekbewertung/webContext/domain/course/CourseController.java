@@ -90,6 +90,22 @@ public class CourseController {
 	}
 	
 	/**
+	 * This method returns all courses sorted by Asc
+	 *
+	 * @return
+	 */
+	@ApiOperation(
+			value = "This endpoint returns all courses sorted by Asc",
+			response = Course.class
+		)
+	@PreAuthorize("hasAuthority('MANAGE')")
+	@GetMapping({"/sorted"})
+	public ResponseEntity<List<Course>> findAllByOrderByCourseNumber() {
+		List<Course> courses = courseService.findAllByOrderByCourseNumber();
+		
+		return new ResponseEntity<>(courses, HttpStatus.OK);
+	}
+	/**
 	 * This method creates a course
 	 * 
 	 * @return  ResponseEntity with the course that was created

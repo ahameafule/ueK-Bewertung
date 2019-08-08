@@ -36,5 +36,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	
 	List<User> findAllByOrderByJoinYearDesc();
 	
+	List<User> findAllByOrderByFirstNameAsc();
+	
 	List<User> findByRolesOrderByJoinYearDescFirstNameAsc(Set<Role> roles);
 }

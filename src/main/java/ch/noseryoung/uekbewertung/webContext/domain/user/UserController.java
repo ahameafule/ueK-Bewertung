@@ -92,6 +92,21 @@ private UserMapper userMapper;
 	}
 	
 	/**
+	 * This method returns all users sorted by Asc
+	 * 
+	 * @return
+	 */
+	@ApiOperation(
+			value = "This endpoint returns all users sorted by Asc",
+			response = User.class
+		)
+	@PreAuthorize("hasAuthority('MANAGE')")
+	@GetMapping({"/sorted"})
+	public ResponseEntity<List<UserDTO>> findAllByOrderByFirstName() {
+		List<User> users = userService.findAllByOrderByFirstName();
+		return new ResponseEntity<>(userMapper.usersToUserDTOs(users), HttpStatus.OK);
+	}
+	/**
 	 * This method returns all apprentices
 	 * 
 	 * @return

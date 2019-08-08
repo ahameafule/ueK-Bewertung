@@ -10,6 +10,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ch.noseryoung.uekbewertung.webContext.domain.user.User;
+
 /**
  * This class implements all data access related methods targeted towards
  * the entity course
@@ -47,6 +49,14 @@ public class CourseService {
 		return courses;
 	}
 	
+	/**
+	 * find all courses sorted by asc
+	 * @return
+	 */
+	public List<Course> findAllByOrderByCourseNumber() {
+		List<Course> courses = courseRepository.findAllByOrderByCourseNumberAsc();
+		return courses;
+	}
 	/**
 	 * tells the repository where to create a course
 	 * @param Course 

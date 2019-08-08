@@ -78,6 +78,11 @@ public class UserService implements UserDetailsService {
 		return users;
 	}
 	
+	public List<User> findAllByOrderByFirstName() {
+		List<User> users = userRepository.findAllByOrderByFirstNameAsc();
+		return users;
+	}
+	
 	public List<User> findAllApprentices() {
 		Set<Role> roles = new HashSet<Role>();
 		roles.add(new Role(2L, "USER"));
